@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D3-CONNECT: Democratized Direct-to-Device Satellite Communication Networks</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --navy: #002B5C;
+            --cyan: #1BB1E7;
+            --light-gray: #ECEFF1;
+            --white: #FFFFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--navy);
+            background-color: var(--white);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        section {
+            padding: 80px 0;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: var(--navy);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--cyan);
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: var(--cyan);
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--cyan);
+            color: var(--white);
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background: var(--navy);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            width: 100%;
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--navy);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--cyan);
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(236, 239, 241, 0.8) 0%, rgba(255, 255, 255, 1) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 15px;
+            color: var(--navy);
+        }
+        
+        .hero h1 span {
+            color: var(--cyan);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            color: var(--navy);
+        }
+        
+        .logo-graphic {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+        
+        .satellite {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--cyan);
+            border-radius: 50%;
+            top: 20px;
+            left: 80px;
+            animation: orbit 8s linear infinite;
+        }
+        
+        .device {
+            position: absolute;
+            width: 30px;
+            height: 50px;
+            background: var(--navy);
+            border-radius: 5px;
+            bottom: 30px;
+            left: 85px;
+        }
+        
+        .orbit-path {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            border: 2px dashed var(--cyan);
+            border-radius: 50%;
+            top: 20px;
+            left: 20px;
+        }
+        
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(80px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+        }
+        
+        /* About Section */
+        .about {
+            background: var(--white);
+        }
+        
+        /* Objectives Section */
+        .objectives {
+            background: var(--light-gray);
+        }
+        
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .objective-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+        
+        .objective-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .objective-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--cyan);
+        }
+        
+        /* Partners Section */
+        .partners {
+            background: var(--white);
+        }
+        
+        .partners-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .partner-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            background: var(--light-gray);
+            border-radius: 10px;
+        }
+        
+        .partner-logo {
+            width: 150px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        
+        .partner-bio {
+            margin-top: 20px;
+        }
+        
+        /* Timeline Section */
+        .timeline {
+            background: var(--light-gray);
+            position: relative;
+        }
+        
+        .timeline-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .timeline-line {
+            position: absolute;
+            width: 4px;
+            background: var(--cyan);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            padding: 20px;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content:after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid var(--white);
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content:after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid var(--white);
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--cyan);
+            border-radius: 50%;
+            top: 20px;
+            right: -10px;
+            z-index: 1;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-dot {
+            left: -10px;
+        }
+        
+        .timeline-year {
+            font-weight: 700;
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+        
+        /* Impact Section */
+        .impact {
+            background: var(--white);
+        }
+        
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .impact-card {
+            background: var(--light-gray);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        
+        .impact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--cyan);
+        }
+        
+        /* Contact Section */
+        .contact {
+            background: var(--light-gray);
+        }
+        
+        .contact-info {
+            margin-top: 30px;
+        }
+        
+        .contact-info p {
+            margin-bottom: 10px;
+        }
+        
+        .contact-info a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--navy);
+            color: var(--white);
+            padding: 50px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo span {
+            color: var(--cyan);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+        
+        .partner-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+        
+        .partner-logos img {
+            height: 50px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+        
+        .partner-logos img:hover {
+            opacity: 1;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .timeline-line {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content:after,
+            .timeline-item:nth-child(even) .timeline-content:after {
+                left: -10px;
+                border-right: 10px solid var(--white);
+                border-left: 0;
+            }
+            
+            .timeline-dot {
+                left: 21px;
+            }
+            
+            .timeline-item:nth-child(even) .timeline-dot {
+                left: 21px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">D3<span>-CONNECT</span></a>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#objectives">Objectives</a></li>
+                    <li><a href="#partners">Partners</a></li>
+                    <li><a href="#timeline">Work Plan</a></li>
+                    <li><a href="#impact">Impact</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="logo-graphic">
+                    <div class="orbit-path"></div>
+                    <div class="satellite"></div>
+                    <div class="device"></div>
+                </div>
+                <h1>D3<span>-CONNECT</span></h1>
+                <h3>Democratized Direct-to-Device Satellite Communication Networks</h3>
+                <p>A joint initiative between Inria Lyon and UC Berkeley to build open and inclusive Direct-to-Device satellite networks.</p>
+                <a href="#about" class="btn">Learn More</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About the Project</h2>
+            <p>D3-CONNECT is a 2025–2027 Associate Team between Inria Agora (France) and UC Berkeley (USA), focused on revolutionizing satellite communication networks.</p>
+            <p>Our mission is to democratize direct-to-device satellite communications by developing inclusive architectures that enable both large and small space actors to participate in the emerging D2D ecosystem. We aim to break down barriers to entry and create a more equitable space communication infrastructure.</p>
+        </div>
+    </section>
+
+    <!-- Objectives Section -->
+    <section id="objectives" class="objectives">
+        <div class="container">
+            <h2>Scientific Objectives</h2>
+            <div class="objectives-grid">
+                <div class="objective-card">
+                    <div class="objective-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3>Democratize Access</h3>
+                    <p>Empower small satellite operators and IoT providers by creating accessible communication protocols that don't require massive infrastructure investments.</p>
+                </div>
+                <div class="objective-card">
+                    <div class="objective-icon">
+                        <i class="fas fa-satellite"></i>
+                    </div>
+                    <h3>Innovate Architectures</h3>
+                    <p>Combine space and terrestrial network designs to create hybrid systems that leverage the strengths of both approaches for optimal performance.</p>
+                </div>
+                <div class="objective-card">
+                    <div class="objective-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Model & Simulate</h3>
+                    <p>Develop comprehensive tools to evaluate multi-tenant D2D systems, enabling accurate performance predictions and optimization.</p>
+                </div>
+                <div class="objective-card">
+                    <div class="objective-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Collaborate Globally</h3>
+                    <p>Connect research excellence from Inria and Berkeley to create solutions that address global connectivity challenges with local relevance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Partners Section -->
+    <section id="partners" class="partners">
+        <div class="container">
+            <h2>Project Partners</h2>
+            <div class="partners-grid">
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <i class="fas fa-university" style="font-size: 5rem; color: var(--navy);"></i>
+                    </div>
+                    <h3>Inria Lyon – Agora Team</h3>
+                    <p>France</p>
+                    <div class="partner-bio">
+                        <p>Experts in satellite-terrestrial IoT and delay-tolerant networking, with extensive experience in designing communication protocols for challenging environments.</p>
+                    </div>
+                </div>
+                <div class="partner-card">
+                    <div class="partner-logo">
+                        <i class="fas fa-university" style="font-size: 5rem; color: var(--navy);"></i>
+                    </div>
+                    <h3>UC Berkeley – NetSys Group</h3>
+                    <p>USA</p>
+                    <div class="partner-bio">
+                        <p>Pioneers in decentralized mobile architectures (CellBricks), bringing cutting-edge research in network systems and distributed computing.</p>
+                    </div>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 40px;">
+                <h3>Key Investigators</h3>
+                <p>Dr. Juan Fraire (Inria) • Prof. Sylvia Ratnasamy (UC Berkeley) • Prof. Scott Shenker (UC Berkeley)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="timeline">
+        <div class="container">
+            <h2>Work Plan & Activities</h2>
+            <div class="timeline-container">
+                <div class="timeline-line"></div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2025</div>
+                        <h3>Phase 1: Foundation</h3>
+                        <p>Use case definition, architecture design, and initial modeling tools development. Establishing collaboration frameworks between teams.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2026</div>
+                        <h3>Phase 2: Development</h3>
+                        <p>Simulation and performance evaluation of proposed architectures. Iterative refinement based on real-world testing scenarios.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <div class="timeline-year">2027</div>
+                        <h3>Phase 3: Integration</h3>
+                        <p>System integration and dissemination of results. Preparation for technology transfer and implementation planning.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="impact">
+        <div class="container">
+            <h2>Project Impact</h2>
+            <p>D3-CONNECT fosters open collaboration, expands global connectivity, and reduces barriers to entry in space networking. Our work has the potential to transform how satellite communications are deployed and managed worldwide.</p>
+            
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Global IoT</h3>
+                    <p>Enable seamless IoT connectivity across remote areas without terrestrial infrastructure, supporting agriculture, environmental monitoring, and logistics.</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <i class="fas fa-first-aid"></i>
+                    </div>
+                    <h3>Emergency Response</h3>
+                    <p>Provide reliable communication during disasters when terrestrial networks are compromised, saving lives through better coordination.</p>
+                </div>
+                <div class="impact-card">
+                    <div class="impact-icon">
+                        <i class="fas fa-ship"></i>
+                    </div>
+                    <h3>Maritime Connectivity</h3>
+                    <p>Bridge communication gaps for ships at sea, improving safety, navigation, and operational efficiency for maritime industries.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact & Acknowledgments</h2>
+            <div class="contact-info">
+                <p><strong>Inria Lyon – Agora Team</strong></p>
+                <p>Website: <a href="https://team.inria.fr/agora" target="_blank">https://team.inria.fr/agora</a></p>
+                <p>Principal Investigator: Dr. Juan Fraire</p>
+                <p>Email: <a href="mailto:contact@d3connect.org">contact@d3connect.org</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <div class="footer-logo">D3<span>-CONNECT</span></div>
+                    <p>Democratized Direct-to-Device<br>Satellite Communication Networks</p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#objectives">Objectives</a></li>
+                        <li><a href="#partners">Partners</a></li>
+                        <li><a href="#timeline">Work Plan</a></li>
+                        <li><a href="#impact">Impact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="https://team.inria.fr/agora" target="_blank">Inria Agora</a></li>
+                        <li><a href="https://netsys.cs.berkeley.edu" target="_blank">UC Berkeley NetSys</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="partner-logos">
+                <i class="fas fa-university" style="font-size: 3rem; color: var(--white);"></i>
+                <i class="fas fa-university" style="font-size: 3rem; color: var(--white);"></i>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2024 D3-CONNECT Research Project. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // Animation for satellite orbit
+        const satellite = document.querySelector('.satellite');
+        let angle = 0;
+        
+        function animateOrbit() {
+            angle += 0.5;
+            if (angle >= 360) angle = 0;
+            
+            const radius = 80;
+            const x = Math.cos(angle * Math.PI / 180) * radius;
+            const y = Math.sin(angle * Math.PI / 180) * radius;
+            
+            satellite.style.transform = `translate(${x}px, ${y}px)`;
+            
+            requestAnimationFrame(animateOrbit);
+        }
+        
+        // Start the animation
+        animateOrbit();
+        
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
