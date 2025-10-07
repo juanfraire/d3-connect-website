@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon and App Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <meta name="msapplication-TileColor" content="#002B5C">
+    <meta name="theme-color" content="#002B5C">
     <style>
         :root {
             --navy: #002B5C;
@@ -15,13 +24,13 @@
             --light-gray: #ECEFF1;
             --white: #FFFFFF;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
             color: var(--navy);
@@ -29,33 +38,35 @@
             line-height: 1.6;
             scroll-behavior: smooth;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
         section {
             padding: 80px 0;
         }
-        
-        h1, h2, h3 {
+
+        h1,
+        h2,
+        h3 {
             font-weight: 600;
             margin-bottom: 20px;
         }
-        
+
         h1 {
             font-size: 2.5rem;
         }
-        
+
         h2 {
             font-size: 2rem;
             color: var(--navy);
             position: relative;
             padding-bottom: 15px;
         }
-        
+
         h2:after {
             content: '';
             position: absolute;
@@ -65,17 +76,17 @@
             height: 3px;
             background: var(--cyan);
         }
-        
+
         h3 {
             font-size: 1.5rem;
             color: var(--cyan);
         }
-        
+
         p {
             margin-bottom: 20px;
             font-size: 1.1rem;
         }
-        
+
         .btn {
             display: inline-block;
             padding: 12px 30px;
@@ -88,13 +99,13 @@
             border: none;
             cursor: pointer;
         }
-        
+
         .btn:hover {
             background: var(--navy);
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         /* Header */
         header {
             position: fixed;
@@ -103,45 +114,45 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
-        
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 20px 0;
         }
-        
+
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
             color: var(--navy);
             text-decoration: none;
         }
-        
+
         .logo span {
             color: var(--cyan);
         }
-        
+
         .nav-links {
             display: flex;
             list-style: none;
         }
-        
+
         .nav-links li {
             margin-left: 30px;
         }
-        
+
         .nav-links a {
             color: var(--navy);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
         }
-        
+
         .nav-links a:hover {
             color: var(--cyan);
         }
-        
+
         /* Hero Section */
         .hero {
             height: 100vh;
@@ -152,37 +163,37 @@
             position: relative;
             overflow: hidden;
         }
-        
+
         .hero-content {
             max-width: 800px;
             margin: 0 auto;
             position: relative;
             z-index: 2;
         }
-        
+
         .hero h1 {
             font-size: 3.5rem;
             margin-bottom: 15px;
             color: var(--navy);
         }
-        
+
         .hero h1 span {
             color: var(--cyan);
         }
-        
+
         .hero p {
             font-size: 1.3rem;
             margin-bottom: 30px;
             color: var(--navy);
         }
-        
+
         .logo-graphic {
             width: 200px;
             height: 200px;
             margin: 0 auto 30px;
             position: relative;
         }
-        
+
         .satellite {
             position: absolute;
             width: 40px;
@@ -193,7 +204,7 @@
             left: 80px;
             animation: orbit 8s linear infinite;
         }
-        
+
         .device {
             position: absolute;
             width: 30px;
@@ -203,7 +214,7 @@
             bottom: 30px;
             left: 85px;
         }
-        
+
         .orbit-path {
             position: absolute;
             width: 160px;
@@ -213,29 +224,34 @@
             top: 20px;
             left: 20px;
         }
-        
+
         @keyframes orbit {
-            from { transform: rotate(0deg) translateX(80px) rotate(0deg); }
-            to { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+            from {
+                transform: rotate(0deg) translateX(80px) rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg) translateX(80px) rotate(-360deg);
+            }
         }
-        
+
         /* About Section */
         .about {
             background: var(--white);
         }
-        
+
         /* Objectives Section */
         .objectives {
             background: var(--light-gray);
         }
-        
+
         .objectives-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
-        
+
         .objective-card {
             background: var(--white);
             padding: 30px;
@@ -243,29 +259,29 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s ease;
         }
-        
+
         .objective-card:hover {
             transform: translateY(-10px);
         }
-        
+
         .objective-icon {
             font-size: 2.5rem;
             margin-bottom: 20px;
             color: var(--cyan);
         }
-        
+
         /* Partners Section */
         .partners {
             background: var(--white);
         }
-        
+
         .partners-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 40px;
             margin-top: 40px;
         }
-        
+
         .partner-card {
             display: flex;
             flex-direction: column;
@@ -275,29 +291,29 @@
             background: var(--light-gray);
             border-radius: 10px;
         }
-        
+
         .partner-logo {
             width: 150px;
             height: auto;
             margin-bottom: 20px;
         }
-        
+
         .partner-bio {
             margin-top: 20px;
         }
-        
+
         /* Timeline Section */
         .timeline {
             background: var(--light-gray);
             position: relative;
         }
-        
+
         .timeline-container {
             position: relative;
             max-width: 1000px;
             margin: 0 auto;
         }
-        
+
         .timeline-line {
             position: absolute;
             width: 4px;
@@ -307,22 +323,22 @@
             left: 50%;
             margin-left: -2px;
         }
-        
+
         .timeline-item {
             padding: 10px 40px;
             position: relative;
             width: 50%;
             box-sizing: border-box;
         }
-        
+
         .timeline-item:nth-child(odd) {
             left: 0;
         }
-        
+
         .timeline-item:nth-child(even) {
             left: 50%;
         }
-        
+
         .timeline-content {
             padding: 20px;
             background: var(--white);
@@ -330,7 +346,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             position: relative;
         }
-        
+
         .timeline-item:nth-child(odd) .timeline-content:after {
             content: '';
             position: absolute;
@@ -342,7 +358,7 @@
             border-bottom: 10px solid transparent;
             border-left: 10px solid var(--white);
         }
-        
+
         .timeline-item:nth-child(even) .timeline-content:after {
             content: '';
             position: absolute;
@@ -354,7 +370,7 @@
             border-bottom: 10px solid transparent;
             border-right: 10px solid var(--white);
         }
-        
+
         .timeline-dot {
             position: absolute;
             width: 20px;
@@ -365,106 +381,106 @@
             right: -10px;
             z-index: 1;
         }
-        
+
         .timeline-item:nth-child(even) .timeline-dot {
             left: -10px;
         }
-        
+
         .timeline-year {
             font-weight: 700;
             color: var(--cyan);
             margin-bottom: 10px;
         }
-        
+
         /* Impact Section */
         .impact {
             background: var(--white);
         }
-        
+
         .impact-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
-        
+
         .impact-card {
             background: var(--light-gray);
             padding: 30px;
             border-radius: 10px;
             text-align: center;
         }
-        
+
         .impact-icon {
             font-size: 2.5rem;
             margin-bottom: 20px;
             color: var(--cyan);
         }
-        
+
         /* Contact Section */
         .contact {
             background: var(--light-gray);
         }
-        
+
         .contact-info {
             margin-top: 30px;
         }
-        
+
         .contact-info p {
             margin-bottom: 10px;
         }
-        
+
         .contact-info a {
             color: var(--cyan);
             text-decoration: none;
         }
-        
+
         .contact-info a:hover {
             text-decoration: underline;
         }
-        
+
         /* Footer */
         footer {
             background: var(--navy);
             color: var(--white);
             padding: 50px 0 20px;
         }
-        
+
         .footer-content {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
             margin-bottom: 30px;
         }
-        
+
         .footer-logo {
             font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 20px;
         }
-        
+
         .footer-logo span {
             color: var(--cyan);
         }
-        
+
         .footer-links {
             list-style: none;
         }
-        
+
         .footer-links li {
             margin-bottom: 10px;
         }
-        
+
         .footer-links a {
             color: var(--white);
             text-decoration: none;
             transition: color 0.3s ease;
         }
-        
+
         .footer-links a:hover {
             color: var(--cyan);
         }
-        
+
         .partner-logos {
             display: flex;
             justify-content: center;
@@ -472,69 +488,259 @@
             gap: 30px;
             margin-top: 30px;
         }
-        
+
         .partner-logos img {
             height: 50px;
             opacity: 0.8;
             transition: opacity 0.3s ease;
         }
-        
+
         .partner-logos img:hover {
             opacity: 1;
         }
-        
+
         .copyright {
             text-align: center;
             padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.9rem;
         }
-        
+
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links {
                 display: none;
             }
-            
+
             .hero h1 {
                 font-size: 2.5rem;
             }
-            
+
             .hero p {
                 font-size: 1.1rem;
             }
-            
+
             .timeline-line {
                 left: 31px;
             }
-            
+
             .timeline-item {
                 width: 100%;
                 padding-left: 70px;
                 padding-right: 25px;
             }
-            
+
             .timeline-item:nth-child(even) {
                 left: 0;
             }
-            
+
             .timeline-item:nth-child(odd) .timeline-content:after,
             .timeline-item:nth-child(even) .timeline-content:after {
                 left: -10px;
                 border-right: 10px solid var(--white);
                 border-left: 0;
             }
-            
+
             .timeline-dot {
                 left: 21px;
             }
-            
+
             .timeline-item:nth-child(even) .timeline-dot {
                 left: 21px;
             }
         }
+
+        .hero .logo-graphic {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero-logo {
+            /* width: clamp(200px, 35vw, 480px); */
+            width: clamp(280px, 45vw, 600px);
+            height: auto;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+            transition: transform 0.4s ease, filter 0.4s ease;
+        }
+
+        .hero-logo:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+        }
+
+        @keyframes gentle-float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .hero-logo {
+            animation: gentle-float 5s ease-in-out infinite;
+        }
+
+        .partner-logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            height: 100px;
+        }
+
+        .partner-img {
+            max-width: 180px;
+            max-height: 80px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .partner-img:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+            background-image: url("background.png");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            /* Enables parallax effect */
+            overflow: hidden;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            /* places text above overlay */
+        }
+
+        .hero-logo {
+            width: clamp(220px, 40vw, 480px);
+            height: auto;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3));
+            animation: gentle-float 5s ease-in-out infinite;
+        }
+
+        @keyframes gentle-float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        .key-investigators {
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .key-investigators h3 {
+            font-size: 1.8rem;
+            margin-bottom: 2rem;
+            color: var(--navy);
+        }
+
+        .investigators-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+        }
+
+        .investigator-card {
+            text-align: center;
+            max-width: 200px;
+        }
+
+        .investigator-photo {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--navy);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .investigator-photo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+        }
+
+        .investigator-card h4 {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .investigator-card p {
+            margin-top: 0.3rem;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        /* Partners Section with Parallax */
+        .partners {
+            position: relative;
+            background-image: url("background-b.png");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            /* creates parallax */
+            color: var(--white);
+            padding: 6rem 0;
+            overflow: hidden;
+        }
+
+        .partners .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Adjust existing elements for contrast */
+        .partners h2,
+        .partners h3,
+        .partners p {
+            color: var(--white);
+        }
+
+        .partner-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(6px);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+        }
     </style>
 </head>
+
 <body>
     <!-- Header -->
     <header>
@@ -554,17 +760,19 @@
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="hero">
+        <div class="hero-overlay"></div>
         <div class="container">
             <div class="hero-content">
                 <div class="logo-graphic">
-                    <div class="orbit-path"></div>
-                    <div class="satellite"></div>
-                    <div class="device"></div>
+                    <img src="logo.svg" alt="D3-CONNECT Logo" class="hero-logo" />
                 </div>
                 <h1>D3<span>-CONNECT</span></h1>
                 <h3>Democratized Direct-to-Device Satellite Communication Networks</h3>
-                <p>A joint initiative between Inria Lyon and UC Berkeley to build open and inclusive Direct-to-Device satellite networks.</p>
+                <p>
+                    A joint initiative between Inria Lyon and UC Berkeley to build open and inclusive
+                    Direct-to-Device satellite networks.
+                </p>
                 <a href="#about" class="btn">Learn More</a>
             </div>
         </div>
@@ -573,44 +781,52 @@
     <!-- About Section -->
     <section id="about" class="about">
         <div class="container">
-            <h2>About the Project</h2>
-            <p>D3-CONNECT is a 2025–2027 Associate Team between Inria Agora (France) and UC Berkeley (USA), focused on revolutionizing satellite communication networks.</p>
-            <p>Our mission is to democratize direct-to-device satellite communications by developing inclusive architectures that enable both large and small space actors to participate in the emerging D2D ecosystem. We aim to break down barriers to entry and create a more equitable space communication infrastructure.</p>
+            <h2>About</h2>
+            <p>D3-CONNECT is a 2025–2027 Associate Team between Inria Agora (France) and UC Berkeley (USA), focused on
+                revolutionizing satellite communication networks.</p>
+            <p>Our mission is to democratize direct-to-device satellite communications by developing inclusive
+                architectures that enable both large and small space actors to participate in the emerging D2D
+                ecosystem. We aim to break down barriers to entry and create a more equitable space communication
+                infrastructure.</p>
         </div>
     </section>
 
     <!-- Objectives Section -->
     <section id="objectives" class="objectives">
         <div class="container">
-            <h2>Scientific Objectives</h2>
+            <h2>Objectives</h2>
             <div class="objectives-grid">
                 <div class="objective-card">
                     <div class="objective-icon">
                         <i class="fas fa-globe"></i>
                     </div>
                     <h3>Democratize Access</h3>
-                    <p>Empower small satellite operators and IoT providers by creating accessible communication protocols that don't require massive infrastructure investments.</p>
+                    <p>Empower small satellite operators and IoT providers by creating accessible communication
+                        protocols that don't require massive infrastructure investments.</p>
                 </div>
                 <div class="objective-card">
                     <div class="objective-icon">
                         <i class="fas fa-satellite"></i>
                     </div>
                     <h3>Innovate Architectures</h3>
-                    <p>Combine space and terrestrial network designs to create hybrid systems that leverage the strengths of both approaches for optimal performance.</p>
+                    <p>Combine space and terrestrial network designs to create hybrid systems that leverage the
+                        strengths of both approaches for optimal performance.</p>
                 </div>
                 <div class="objective-card">
                     <div class="objective-icon">
                         <i class="fas fa-cogs"></i>
                     </div>
                     <h3>Model & Simulate</h3>
-                    <p>Develop comprehensive tools to evaluate multi-tenant D2D systems, enabling accurate performance predictions and optimization.</p>
+                    <p>Develop comprehensive tools to evaluate multi-tenant D2D systems, enabling accurate performance
+                        predictions and optimization.</p>
                 </div>
                 <div class="objective-card">
                     <div class="objective-icon">
                         <i class="fas fa-handshake"></i>
                     </div>
                     <h3>Collaborate Globally</h3>
-                    <p>Connect research excellence from Inria and Berkeley to create solutions that address global connectivity challenges with local relevance.</p>
+                    <p>Connect research excellence from Inria and Berkeley to create solutions that address global
+                        connectivity challenges with local relevance.</p>
                 </div>
             </div>
         </div>
@@ -618,33 +834,61 @@
 
     <!-- Partners Section -->
     <section id="partners" class="partners">
+        <div class="partners-overlay"></div>
         <div class="container">
-            <h2>Project Partners</h2>
+            <h2>Partners</h2>
             <div class="partners-grid">
+
+                <!-- Inria -->
                 <div class="partner-card">
                     <div class="partner-logo">
-                        <i class="fas fa-university" style="font-size: 5rem; color: var(--navy);"></i>
+                        <img src="logo-inria-w.svg" alt="Inria Logo" class="partner-img" />
                     </div>
                     <h3>Inria Lyon – Agora Team</h3>
                     <p>France</p>
                     <div class="partner-bio">
-                        <p>Experts in satellite-terrestrial IoT and delay-tolerant networking, with extensive experience in designing communication protocols for challenging environments.</p>
+                        <p>Experts in satellite-terrestrial IoT and delay-tolerant networking, with extensive experience
+                            in designing communication protocols for challenging environments.</p>
                     </div>
                 </div>
+
+                <!-- UC Berkeley -->
                 <div class="partner-card">
                     <div class="partner-logo">
-                        <i class="fas fa-university" style="font-size: 5rem; color: var(--navy);"></i>
+                        <img src="logo-ucb-w.svg" alt="UC Berkeley Logo" class="partner-img" />
                     </div>
                     <h3>UC Berkeley – NetSys Group</h3>
                     <p>USA</p>
                     <div class="partner-bio">
-                        <p>Pioneers in decentralized mobile architectures (CellBricks), bringing cutting-edge research in network systems and distributed computing.</p>
+                        <p>Pioneers in decentralized mobile architectures (CellBricks), bringing cutting-edge research
+                            in network systems and distributed computing.</p>
                     </div>
                 </div>
+
             </div>
-            <div style="text-align: center; margin-top: 40px;">
+
+            <!-- Key Investigators -->
+            <div class="key-investigators">
                 <h3>Key Investigators</h3>
-                <p>Dr. Juan Fraire (Inria) • Prof. Sylvia Ratnasamy (UC Berkeley) • Prof. Scott Shenker (UC Berkeley)</p>
+                <div class="investigators-grid">
+                    <div class="investigator-card">
+                        <img src="pic-fraire.jpg" alt="Dr. Juan Fraire" class="investigator-photo" />
+                        <h4>Dr. Juan Fraire</h4>
+                        <p>Inria Lyon – Agora Team</p>
+                    </div>
+
+                    <div class="investigator-card">
+                        <img src="pic-ratnasamy.jpg" alt="Prof. Sylvia Ratnasamy" class="investigator-photo" />
+                        <h4>Prof. Sylvia Ratnasamy</h4>
+                        <p>UC Berkeley – NetSys Group</p>
+                    </div>
+
+                    <div class="investigator-card">
+                        <img src="pic-shenker.jpg" alt="Prof. Scott Shenker" class="investigator-photo" />
+                        <h4>Prof. Scott Shenker</h4>
+                        <p>UC Berkeley – NetSys Group</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -652,34 +896,37 @@
     <!-- Timeline Section -->
     <section id="timeline" class="timeline">
         <div class="container">
-            <h2>Work Plan & Activities</h2>
+            <h2>Work Plan</h2>
             <div class="timeline-container">
                 <div class="timeline-line"></div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-year">2025</div>
                         <h3>Phase 1: Foundation</h3>
-                        <p>Use case definition, architecture design, and initial modeling tools development. Establishing collaboration frameworks between teams.</p>
+                        <p>Use case definition, architecture design, and initial modeling tools development.
+                            Establishing collaboration frameworks between teams.</p>
                     </div>
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-year">2026</div>
                         <h3>Phase 2: Development</h3>
-                        <p>Simulation and performance evaluation of proposed architectures. Iterative refinement based on real-world testing scenarios.</p>
+                        <p>Simulation and performance evaluation of proposed architectures. Iterative refinement based
+                            on real-world testing scenarios.</p>
                     </div>
                 </div>
-                
+
                 <div class="timeline-item">
                     <div class="timeline-dot"></div>
                     <div class="timeline-content">
                         <div class="timeline-year">2027</div>
                         <h3>Phase 3: Integration</h3>
-                        <p>System integration and dissemination of results. Preparation for technology transfer and implementation planning.</p>
+                        <p>System integration and dissemination of results. Preparation for technology transfer and
+                            implementation planning.</p>
                     </div>
                 </div>
             </div>
@@ -689,30 +936,35 @@
     <!-- Impact Section -->
     <section id="impact" class="impact">
         <div class="container">
-            <h2>Project Impact</h2>
-            <p>D3-CONNECT fosters open collaboration, expands global connectivity, and reduces barriers to entry in space networking. Our work has the potential to transform how satellite communications are deployed and managed worldwide.</p>
-            
+            <h2>Impact</h2>
+            <p>D3-CONNECT fosters open collaboration, expands global connectivity, and reduces barriers to entry in
+                space networking. Our work has the potential to transform how satellite communications are deployed and
+                managed worldwide.</p>
+
             <div class="impact-grid">
                 <div class="impact-card">
                     <div class="impact-icon">
                         <i class="fas fa-network-wired"></i>
                     </div>
                     <h3>Global IoT</h3>
-                    <p>Enable seamless IoT connectivity across remote areas without terrestrial infrastructure, supporting agriculture, environmental monitoring, and logistics.</p>
+                    <p>Enable seamless IoT connectivity across remote areas without terrestrial infrastructure,
+                        supporting agriculture, environmental monitoring, and logistics.</p>
                 </div>
                 <div class="impact-card">
                     <div class="impact-icon">
                         <i class="fas fa-first-aid"></i>
                     </div>
                     <h3>Emergency Response</h3>
-                    <p>Provide reliable communication during disasters when terrestrial networks are compromised, saving lives through better coordination.</p>
+                    <p>Provide reliable communication during disasters when terrestrial networks are compromised, saving
+                        lives through better coordination.</p>
                 </div>
                 <div class="impact-card">
                     <div class="impact-icon">
                         <i class="fas fa-ship"></i>
                     </div>
                     <h3>Maritime Connectivity</h3>
-                    <p>Bridge communication gaps for ships at sea, improving safety, navigation, and operational efficiency for maritime industries.</p>
+                    <p>Bridge communication gaps for ships at sea, improving safety, navigation, and operational
+                        efficiency for maritime industries.</p>
                 </div>
             </div>
         </div>
@@ -721,12 +973,12 @@
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
-            <h2>Contact & Acknowledgments</h2>
+            <h2>Contact</h2>
             <div class="contact-info">
                 <p><strong>Inria Lyon – Agora Team</strong></p>
                 <p>Website: <a href="https://team.inria.fr/agora" target="_blank">https://team.inria.fr/agora</a></p>
                 <p>Principal Investigator: Dr. Juan Fraire</p>
-                <p>Email: <a href="mailto:contact@d3connect.org">contact@d3connect.org</a></p>
+                <!-- <p>Email: <a href="mailto:contact@d3connect.org">contact@d3connect.org</a></p> -->
             </div>
         </div>
     </section>
@@ -758,14 +1010,14 @@
                     </ul>
                 </div>
             </div>
-            
+
             <div class="partner-logos">
-                <i class="fas fa-university" style="font-size: 3rem; color: var(--white);"></i>
-                <i class="fas fa-university" style="font-size: 3rem; color: var(--white);"></i>
+                <img src="logo-inria-w.svg" alt="Inria Logo" class="partner-mini-logo" />
+                <img src="logo-ucb-w.svg" alt="UC Berkeley Logo" class="partner-mini-logo" />
             </div>
-            
+
             <div class="copyright">
-                <p>&copy; 2024 D3-CONNECT Research Project. All rights reserved.</p>
+                <p>&copy; 2025 D3-CONNECT Research Project. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -775,35 +1027,35 @@
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                
+
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
                 });
             });
         });
-        
+
         // Animation for satellite orbit
         const satellite = document.querySelector('.satellite');
         let angle = 0;
-        
+
         function animateOrbit() {
             angle += 0.5;
             if (angle >= 360) angle = 0;
-            
+
             const radius = 80;
             const x = Math.cos(angle * Math.PI / 180) * radius;
             const y = Math.sin(angle * Math.PI / 180) * radius;
-            
+
             satellite.style.transform = `translate(${x}px, ${y}px)`;
-            
+
             requestAnimationFrame(animateOrbit);
         }
-        
+
         // Start the animation
         animateOrbit();
-        
+
         // Header scroll effect
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const header = document.querySelector('header');
             if (window.scrollY > 50) {
                 header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
@@ -813,4 +1065,5 @@
         });
     </script>
 </body>
+
 </html>
