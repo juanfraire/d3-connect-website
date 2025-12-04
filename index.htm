@@ -419,7 +419,12 @@
 
         /* Contact Section */
         .contact {
-            background: var(--light-gray);
+            background: #ffffff;
+            /* White background */
+            color: var(--navy);
+            /* Dark text for contrast */
+            padding: 60px 0;
+            /* Optional: ensures same vertical spacing as other sections */
         }
 
         .contact-info {
@@ -428,11 +433,14 @@
 
         .contact-info p {
             margin-bottom: 10px;
+            color: var(--navy);
         }
 
         .contact-info a {
             color: var(--cyan);
+            /* keep your accent color */
             text-decoration: none;
+            font-weight: 500;
         }
 
         .contact-info a:hover {
@@ -738,6 +746,69 @@
         .partner-card:hover {
             transform: translateY(-5px);
         }
+
+        /* News Section */
+        .news {
+            background: var(--light-gray);
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .news-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+        }
+
+        .news-image {
+            width: 100%;
+            max-height: 200px;
+            /* adjust height as needed */
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .news-image img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            /* preserve aspect ratio */
+            height: auto;
+            /* preserve aspect ratio */
+            object-fit: contain;
+            /* shrink to fit */
+        }
+
+        .news-content {
+            padding: 20px 22px 24px;
+        }
+
+        .news-content h3 {
+            font-size: 1.2rem;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+        .news-content p {
+            font-size: 0.98rem;
+            margin-bottom: 0;
+        }
     </style>
 </head>
 
@@ -753,6 +824,7 @@
                     <li><a href="#partners">Partners</a></li>
                     <li><a href="#timeline">Work Plan</a></li>
                     <li><a href="#impact">Impact</a></li>
+                    <li><a href="#news">News</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -970,6 +1042,120 @@
         </div>
     </section>
 
+    <!-- News Section -->
+    <section id="news" class="news">
+        <div class="container">
+            <h2>News</h2>
+            <div class="news-grid">
+
+                <!-- News item 1 -->
+                <article class="news-card">
+                    <div class="news-image">
+                        <img src="news-1-ko.png" alt="D3-CONNECT workshop announcement">
+                    </div>
+                    <div class="news-content">
+                        <h3>D3-CONNECT Kickoff Workshop</h3>
+                        <span class="news-date">May 2025</span>
+                        <p>
+                            Inria Lyon and UC Berkeley launched the D3-CONNECT initiative with a joint workshop at UC
+                            Berkeley,
+                            followed by a visit to the <a href="https://www.spacetechexpo.com/" target="_blank">Space
+                                Tech Expo</a>
+                            in Los Angeles to engage with industry partners and explore emerging trends in satellite
+                            systems.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- News item 5 -->
+                <article class="news-card">
+                    <div class="news-image">
+                        <img src="news-2-share.png" alt="Infrastructure Sharing for Satellite Networks">
+                    </div>
+                    <div class="news-content">
+                        <h3>Research on Infra Sharing</h3>
+                        <span class="news-date">July 2025</span>
+                        <p>
+                            We are developing a new framework for <em>infrastructure sharing in
+                                satellite
+                                networks</em>, adapting terrestrial models such as MORAN, MOCN, and roaming to LEO and
+                            GEO constellations.
+                            This work proposes a hybrid architecture where Satellite Network Operators (SNOs) can
+                            flexibly support
+                            multiple Mobile Network Operator (MNO) partnerships while optimizing the network.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- News item 2 -->
+                <article class="news-card">
+                    <div class="news-image">
+                        <img src="news-2-paper.png" alt="Conference presentation">
+                    </div>
+                    <div class="news-content">
+                        <h3>ACM HotNets 2025 Paper</h3>
+                        <span class="news-date">November 2025</span>
+                        <p>
+                            Led by Wesley Woo, PhD student supervised by UC Berkeley members, we published our first
+                            results in the
+                            proceedings of <a href="https://conferences.sigcomm.org/hotnets/2025/accepted.html"
+                                target="_blank">HotNets 2025</a>
+                            in our paper entitled <em>“Anyone, Anywhere, not Everyone, Everywhere: Starlink Doesn’t End
+                                the Digital Divide”</em>,
+                            available at <a href="https://dl.acm.org/doi/10.1145/3772356.3772383" target="_blank">the
+                                ACM Digital Library</a>.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- News item 3 -->
+                <article class="news-card">
+                    <div class="news-image">
+                        <img src="news-3-ietf.png" alt="Student visit">
+                    </div>
+                    <div class="news-content">
+                        <h3>Participation at the IETF 124</h3>
+                        <span class="news-date">November 2025</span>
+                        <p>
+                            D3-CONNECT members participated in the IETF 124 meeting in Montreal, engaging with the
+                            broader networking
+                            community. Our HotNets 2025 paper was presented
+                            (<a href="https://datatracker.ietf.org/meeting/124/materials/slides-124-gaia-anyone-anywhere-but-not-everyone-everywhere-starlink-doesnt-close-the-digital-divide-00"
+                                target="_blank">slides available here</a>),
+                            and discussions were held within the
+                            <a href="https://datatracker.ietf.org/rg/space/about/" target="_blank">SPACE RG</a>,
+                            chaired by J. Fraire (Inria).
+                        </p>
+                    </div>
+                </article>
+
+                <!-- News item 4 -->
+                <article class="news-card">
+                    <div class="news-image">
+                        <img src="news-4-paper-hannah.png" alt="Paper by Hannah Pasandi">
+                    </div>
+                    <div class="news-content">
+                        <h3>MobiArch 2025 Paper</h3>
+                        <span class="news-date">November 2025</span>
+                        <p>
+                            We published our collaborative work in the Proceedings of the 20th Workshop on Mobility in
+                            the Evolving Internet Architecture
+                            (<a href="https://dl.acm.org/doi/proceedings/10.1145/3737897" target="_blank">MobiArch
+                                2025</a>, MOBICOM).
+                            The paper, entitled
+                            <em>“Adaptive Orbital Direct-to-Device: Rethinking Satellite IoT Architectures”</em>,
+                            is available
+                            <a href="https://dl.acm.org/doi/pdf/10.1145/3737897.3767293" target="_blank">here</a>.
+                        </p>
+                    </div>
+                </article>
+
+                
+
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section id="contact" class="contact">
         <div class="container">
@@ -978,7 +1164,6 @@
                 <p><strong>Inria Lyon – Agora Team</strong></p>
                 <p>Website: <a href="https://team.inria.fr/agora" target="_blank">https://team.inria.fr/agora</a></p>
                 <p>Principal Investigator: Dr. Juan Fraire</p>
-                <!-- <p>Email: <a href="mailto:contact@d3connect.org">contact@d3connect.org</a></p> -->
             </div>
         </div>
     </section>
