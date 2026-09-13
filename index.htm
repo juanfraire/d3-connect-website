@@ -5,9 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>D3-CONNECT: Democratized Direct-to-Device Satellite Communication Networks</title>
+    <meta name="description"
+        content="D3-CONNECT is a 2025-2027 Inria Associate Team between Inria Lyon (Agora) and UC Berkeley (NetSys), building open and inclusive direct-to-device satellite networks.">
+    <meta property="og:title" content="D3-CONNECT">
+    <meta property="og:description"
+        content="Democratized Direct-to-Device Satellite Communication Networks. An Inria - UC Berkeley Associate Team, 2025-2027.">
+    <meta property="og:image" content="https://d3-connect.space/background.png">
+    <meta property="og:url" content="https://d3-connect.space">
+    <meta property="og:type" content="website">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Favicon and App Icons -->
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -18,115 +28,272 @@
     <meta name="msapplication-TileColor" content="#002B5C">
     <meta name="theme-color" content="#002B5C">
     <style>
+        /* ============================================================
+           Design tokens
+           ============================================================ */
         :root {
-            --navy: #002B5C;
+            color-scheme: light;
+
+            --navy-900: #00142e;
+            --navy-800: #002B5C;
+            --navy-700: #0a3d78;
             --cyan: #1BB1E7;
-            --light-gray: #ECEFF1;
-            --white: #FFFFFF;
+            --cyan-700: #0d82b0;
+            /* Body-text link colour. Kept as a token so the base `a` rule stays at
+               specificity 0,0,1 and every component (.btn, .pub-link, .footer-links)
+               can override it without a theme-scoped counter-rule. */
+            --link: #0d82b0;
+
+            --bg: #ffffff;
+            --bg-alt: #f3f7fb;
+            --card: #ffffff;
+            --ink: #0d1b2a;
+            --ink-strong: #002B5C;
+            --muted: #5a6b7d;
+            --line: #dbe4ee;
+            --shadow: 0 1px 2px rgba(13, 27, 42, .04), 0 8px 24px rgba(13, 27, 42, .06);
+            --shadow-lg: 0 2px 4px rgba(13, 27, 42, .05), 0 18px 46px rgba(13, 27, 42, .12);
+
+            --radius: 14px;
+            --radius-lg: 20px;
+            --maxw: 1160px;
+            --gutter: clamp(20px, 5vw, 40px);
+            --section-y: clamp(64px, 9vw, 118px);
         }
 
-        * {
+        :root[data-theme="dark"] {
+            color-scheme: dark;
+
+            --link: #1BB1E7;
+            --bg: #07131f;
+            --bg-alt: #0b1d2f;
+            --card: #102639;
+            --ink: #e6eef7;
+            --ink-strong: #ffffff;
+            --muted: #9ab0c6;
+            --line: #1d3a58;
+            --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 8px 24px rgba(0, 0, 0, .34);
+            --shadow-lg: 0 2px 4px rgba(0, 0, 0, .35), 0 18px 46px rgba(0, 0, 0, .45);
+        }
+
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            color: var(--navy);
-            background-color: var(--white);
-            line-height: 1.6;
+        html {
             scroll-behavior: smooth;
+            scroll-padding-top: 86px;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            color: var(--ink);
+            background: var(--bg);
+            line-height: 1.65;
+            font-size: 17px;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: var(--maxw);
             margin: 0 auto;
-            padding: 0 20px;
+            padding-inline: var(--gutter);
         }
 
         section {
-            padding: 80px 0;
+            padding-block: var(--section-y);
         }
 
         h1,
         h2,
-        h3 {
+        h3,
+        h4 {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
             font-weight: 600;
-            margin-bottom: 20px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
+            line-height: 1.18;
+            letter-spacing: -0.02em;
+            color: var(--ink-strong);
         }
 
         h2 {
-            font-size: 2rem;
-            color: var(--navy);
-            position: relative;
-            padding-bottom: 15px;
-        }
-
-        h2:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 60px;
-            height: 3px;
-            background: var(--cyan);
+            font-size: clamp(1.9rem, 3.6vw, 2.6rem);
         }
 
         h3 {
-            font-size: 1.5rem;
-            color: var(--cyan);
+            font-size: 1.22rem;
         }
 
         p {
-            margin-bottom: 20px;
-            font-size: 1.1rem;
+            color: var(--muted);
         }
 
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
+        a {
+            color: var(--link);
+            text-decoration-color: color-mix(in srgb, var(--cyan) 45%, transparent);
+            text-underline-offset: 3px;
+        }
+
+        a:hover {
+            color: var(--cyan);
+        }
+
+        img {
+            max-width: 100%;
+        }
+
+        /* Section heading block */
+        .sec-head {
+            max-width: 720px;
+            margin-bottom: clamp(36px, 5vw, 56px);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: .76rem;
+            font-weight: 600;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--cyan-700);
+            margin-bottom: 14px;
+        }
+
+        :root[data-theme="dark"] .eyebrow {
+            color: var(--cyan);
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 26px;
+            height: 2px;
             background: var(--cyan);
-            color: var(--white);
-            border-radius: 30px;
+            border-radius: 2px;
+        }
+
+        .sec-head p {
+            margin-top: 16px;
+            font-size: 1.08rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 26px;
+            background: var(--cyan);
+            color: #fff;
+            border-radius: 999px;
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            border: none;
+            font-weight: 600;
+            font-size: .97rem;
+            border: 1px solid transparent;
             cursor: pointer;
+            transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
         }
 
         .btn:hover {
-            background: var(--navy);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background: var(--cyan-700);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(27, 177, 231, .32);
         }
 
-        /* Header */
+        .btn-ghost {
+            background: transparent;
+            color: #fff;
+            border-color: rgba(255, 255, 255, .45);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, .12);
+            color: #fff;
+            box-shadow: none;
+        }
+
+        /* ============================================================
+           Header
+           ============================================================ */
         header {
             position: fixed;
-            width: 100%;
-            background: var(--white);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            inset: 0 0 auto 0;
             z-index: 1000;
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            transition: border-color .3s ease, background .3s ease, box-shadow .3s ease;
+        }
+
+        header.scrolled {
+            background: color-mix(in srgb, var(--bg) 82%, transparent);
+            backdrop-filter: saturate(160%) blur(14px);
+            border-bottom-color: var(--line);
+            box-shadow: 0 4px 24px rgba(0, 43, 92, .07);
+        }
+
+        /* Over the hero image, before any scrolling */
+        header:not(.scrolled) .logo {
+            color: #fff;
+        }
+
+        header:not(.scrolled) .nav-links a {
+            color: rgba(255, 255, 255, .88);
+        }
+
+        header:not(.scrolled) .nav-links a:hover,
+        header:not(.scrolled) .nav-links a.active {
+            color: #fff;
+            background: rgba(255, 255, 255, .14);
+        }
+
+        header:not(.scrolled) .icon-btn {
+            color: #fff;
+            background: rgba(255, 255, 255, .12);
+            border-color: rgba(255, 255, 255, .3);
+        }
+
+        header:not(.scrolled) .icon-btn:hover {
+            border-color: #fff;
+            color: #fff;
+        }
+
+        @media (max-width: 820px) {
+
+            /* The dropdown panel is always solid, so its links keep body colors
+               even while the header itself is transparent over the hero. */
+            header:not(.scrolled) .nav-links a {
+                color: var(--ink);
+            }
+
+            header:not(.scrolled) .nav-links a:hover,
+            header:not(.scrolled) .nav-links a.active {
+                color: var(--cyan);
+                background: color-mix(in srgb, var(--cyan) 10%, transparent);
+            }
         }
 
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            gap: 20px;
+            padding-block: 15px;
         }
 
         .logo {
-            font-size: 1.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.28rem;
             font-weight: 700;
-            color: var(--navy);
+            letter-spacing: -.02em;
+            color: var(--ink-strong);
             text-decoration: none;
+            white-space: nowrap;
         }
 
         .logo span {
@@ -136,150 +303,357 @@
         .nav-links {
             display: flex;
             list-style: none;
-        }
-
-        .nav-links li {
-            margin-left: 30px;
+            gap: 4px;
+            align-items: center;
         }
 
         .nav-links a {
-            color: var(--navy);
+            display: block;
+            padding: 8px 13px;
+            border-radius: 8px;
+            color: var(--ink);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s ease;
+            font-size: .93rem;
+            transition: color .2s ease, background .2s ease;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--cyan);
+            background: color-mix(in srgb, var(--cyan) 10%, transparent);
+        }
+
+        .nav-tools {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: var(--card);
+            color: var(--ink);
+            cursor: pointer;
+            font-size: .95rem;
+            transition: border-color .2s ease, color .2s ease;
+        }
+
+        .icon-btn:hover {
+            border-color: var(--cyan);
             color: var(--cyan);
         }
 
-        /* Hero Section */
-        .hero {
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(236, 239, 241, 0.8) 0%, rgba(255, 255, 255, 1) 100%);
-            position: relative;
-            overflow: hidden;
+        #menu-btn {
+            display: none;
         }
 
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
+        /* ============================================================
+           Hero
+           ============================================================ */
+        .hero {
             position: relative;
-            z-index: 2;
+            min-height: 100svh;
+            display: grid;
+            place-items: center;
+            text-align: center;
+            color: #fff;
+            padding-block: 130px 90px;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background-image: url("background.png");
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.06);
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(ellipse 70% 55% at 50% 45%, rgba(0, 20, 46, .28) 0%, rgba(0, 20, 46, .78) 100%),
+                linear-gradient(to bottom, rgba(0, 20, 46, .35) 0%, rgba(0, 20, 46, 0) 35%, rgba(0, 20, 46, .55) 100%);
+        }
+
+        .hero-logo {
+            display: block;
+            width: clamp(160px, 25vw, 264px);
+            height: auto;
+            margin: 0 auto 26px;
+            filter: drop-shadow(0 8px 30px rgba(0, 0, 0, .5));
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .hero-logo-wrap {
+            position: relative;
+            isolation: isolate;
+        }
+
+        .hero-logo-wrap::before {
+            content: '';
+            position: absolute;
+            z-index: -1;
+            left: 50%;
+            top: 46%;
+            width: min(460px, 78vw);
+            aspect-ratio: 1;
+            max-width: 100%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(180, 214, 240, .28) 0%, rgba(180, 214, 240, 0) 68%);
+            pointer-events: none;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-8px)
+            }
         }
 
         .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            color: var(--navy);
+            font-size: clamp(2.6rem, 7vw, 4.4rem);
+            color: #fff;
+            margin-bottom: 14px;
         }
 
         .hero h1 span {
             color: var(--cyan);
         }
 
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 30px;
-            color: var(--navy);
+        .hero .tagline {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.02rem, 2.3vw, 1.45rem);
+            font-weight: 500;
+            color: #dcebf7;
+            margin-bottom: 20px;
         }
 
-        .logo-graphic {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 30px;
-            position: relative;
+        .hero .lede {
+            max-width: 620px;
+            margin: 0 auto 34px;
+            color: rgba(255, 255, 255, .8);
+            font-size: 1.05rem;
         }
 
-        .satellite {
-            position: absolute;
-            width: 40px;
-            height: 40px;
+        .hero-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 17px;
+            margin-bottom: 26px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .28);
+            background: rgba(255, 255, 255, .1);
+            backdrop-filter: blur(8px);
+            font-size: .84rem;
+            font-weight: 500;
+            letter-spacing: .03em;
+            color: #eaf5fd;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
             background: var(--cyan);
-            border-radius: 50%;
-            top: 20px;
-            left: 80px;
-            animation: orbit 8s linear infinite;
+            box-shadow: 0 0 0 0 rgba(27, 177, 231, .7);
+            animation: pulse 2.4s infinite;
         }
 
-        .device {
-            position: absolute;
-            width: 30px;
-            height: 50px;
-            background: var(--navy);
-            border-radius: 5px;
-            bottom: 30px;
-            left: 85px;
-        }
-
-        .orbit-path {
-            position: absolute;
-            width: 160px;
-            height: 160px;
-            border: 2px dashed var(--cyan);
-            border-radius: 50%;
-            top: 20px;
-            left: 20px;
-        }
-
-        @keyframes orbit {
-            from {
-                transform: rotate(0deg) translateX(80px) rotate(0deg);
+        @keyframes pulse {
+            70% {
+                box-shadow: 0 0 0 11px rgba(27, 177, 231, 0)
             }
 
-            to {
-                transform: rotate(360deg) translateX(80px) rotate(-360deg);
+            100% {
+                box-shadow: 0 0 0 0 rgba(27, 177, 231, 0)
             }
         }
 
-        /* About Section */
-        .about {
-            background: var(--white);
+        /* ============================================================
+           About + stats
+           ============================================================ */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: clamp(34px, 6vw, 72px);
+            align-items: start;
         }
 
-        /* Objectives Section */
+        .about-grid p+p {
+            margin-top: 18px;
+        }
+
+        .about-grid .lead {
+            font-size: 1.2rem;
+            color: var(--ink);
+            line-height: 1.55;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .stat {
+            padding: 24px 20px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: var(--bg-alt);
+        }
+
+        .stat-n {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2.1rem;
+            font-weight: 700;
+            line-height: 1;
+            color: var(--cyan);
+        }
+
+        .stat-l {
+            margin-top: 8px;
+            font-size: .88rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        /* ============================================================
+           Objectives
+           ============================================================ */
         .objectives {
-            background: var(--light-gray);
+            background: var(--bg-alt);
+            border-block: 1px solid var(--line);
         }
 
         .objectives-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+            gap: 22px;
         }
 
         .objective-card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
+            position: relative;
+            background: var(--card);
+            padding: 30px 26px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+        }
+
+        .objective-card::before {
+            content: '';
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan), var(--navy-700));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
         }
 
         .objective-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: color-mix(in srgb, var(--cyan) 40%, var(--line));
+        }
+
+        .objective-card:hover::before {
+            transform: scaleX(1);
         }
 
         .objective-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            margin-bottom: 18px;
+            border-radius: 12px;
+            font-size: 1.25rem;
             color: var(--cyan);
+            background: color-mix(in srgb, var(--cyan) 13%, transparent);
         }
 
-        /* Partners Section */
+        .objective-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .objective-card p {
+            font-size: .96rem;
+        }
+
+        /* ============================================================
+           Partners (parallax band)
+           ============================================================ */
         .partners {
-            background: var(--white);
+            position: relative;
+            color: #fff;
+            isolation: isolate;
+            overflow: hidden;
+        }
+
+        .partners-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            background-image: url("background-b.png");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .partners::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(180deg, rgba(0, 20, 46, .84), rgba(0, 20, 46, .92));
+        }
+
+        .partners h2,
+        .partners h3,
+        .partners h4 {
+            color: #fff;
+        }
+
+        .partners p {
+            color: rgba(255, 255, 255, .74);
+        }
+
+        .partners .eyebrow {
+            color: var(--cyan);
         }
 
         .partners-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
         }
 
         .partner-card {
@@ -287,202 +661,531 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            padding: 30px;
-            background: var(--light-gray);
-            border-radius: 10px;
+            padding: 34px 28px;
+            background: rgba(255, 255, 255, .07);
+            border: 1px solid rgba(255, 255, 255, .13);
+            backdrop-filter: blur(8px);
+            border-radius: var(--radius-lg);
+            transition: transform .3s ease, background .3s ease;
+        }
+
+        .partner-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, .11);
         }
 
         .partner-logo {
-            width: 150px;
-            height: auto;
+            display: grid;
+            place-items: center;
+            height: 74px;
             margin-bottom: 20px;
         }
 
-        .partner-bio {
-            margin-top: 20px;
+        /* logo-inria-w.svg carries only a viewBox, no intrinsic size, so it collapses
+           to 0x0 unless one axis is given a definite length. */
+        .partner-img {
+            width: 165px;
+            max-width: 100%;
+            height: auto;
+            max-height: 66px;
+            object-fit: contain;
         }
 
-        /* Timeline Section */
-        .timeline {
-            background: var(--light-gray);
-            position: relative;
-        }
-
-        .timeline-container {
-            position: relative;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .timeline-line {
-            position: absolute;
-            width: 4px;
-            background: var(--cyan);
-            top: 0;
-            bottom: 0;
-            left: 50%;
-            margin-left: -2px;
-        }
-
-        .timeline-item {
-            padding: 10px 40px;
-            position: relative;
-            width: 50%;
-            box-sizing: border-box;
-        }
-
-        .timeline-item:nth-child(odd) {
-            left: 0;
-        }
-
-        .timeline-item:nth-child(even) {
-            left: 50%;
-        }
-
-        .timeline-content {
-            padding: 20px;
-            background: var(--white);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            position: relative;
-        }
-
-        .timeline-item:nth-child(odd) .timeline-content:after {
-            content: '';
-            position: absolute;
-            right: -10px;
-            top: 20px;
-            width: 0;
-            height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-left: 10px solid var(--white);
-        }
-
-        .timeline-item:nth-child(even) .timeline-content:after {
-            content: '';
-            position: absolute;
-            left: -10px;
-            top: 20px;
-            width: 0;
-            height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-right: 10px solid var(--white);
-        }
-
-        .timeline-dot {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background: var(--cyan);
-            border-radius: 50%;
-            top: 20px;
-            right: -10px;
-            z-index: 1;
-        }
-
-        .timeline-item:nth-child(even) .timeline-dot {
-            left: -10px;
-        }
-
-        .timeline-year {
-            font-weight: 700;
+        .partner-card .role {
+            font-size: .8rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
             color: var(--cyan);
-            margin-bottom: 10px;
+            margin-bottom: 6px;
         }
 
-        /* Impact Section */
-        .impact {
-            background: var(--white);
+        .partner-card h3 {
+            margin-bottom: 4px;
         }
 
-        .impact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+        .partner-card .where {
+            font-size: .9rem;
+            margin-bottom: 14px;
         }
 
-        .impact-card {
-            background: var(--light-gray);
-            padding: 30px;
-            border-radius: 10px;
+        .partner-card .partner-bio {
+            font-size: .95rem;
+        }
+
+        /* People */
+        .people {
+            margin-top: clamp(52px, 7vw, 80px);
+        }
+
+        .people h3 {
+            text-align: center;
+            font-size: 1.45rem;
+            margin-bottom: 8px;
+        }
+
+        .people .sub {
+            text-align: center;
+            font-size: .93rem;
+            margin-bottom: 38px;
+        }
+
+        .people-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(24px, 4vw, 52px);
+        }
+
+        .person {
+            width: 185px;
             text-align: center;
         }
 
-        .impact-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+        .person-photo {
+            display: block;
+            width: 128px;
+            height: 128px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, .3);
+            box-shadow: 0 8px 26px rgba(0, 0, 0, .35);
+            /* The PI portraits are already black and white; this keeps any colour
+               headshot dropped in later consistent with them. */
+            filter: grayscale(100%);
+            transition: transform .3s ease, border-color .3s ease;
+        }
+
+        .person:hover .person-photo {
+            transform: translateY(-4px);
+            border-color: var(--cyan);
+        }
+
+        .person h4 {
+            font-size: 1rem;
+            margin-bottom: 3px;
+        }
+
+        .person p {
+            font-size: .85rem;
+            line-height: 1.45;
+        }
+
+        .person .tag {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-size: .72rem;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+            color: var(--cyan);
+            border: 1px solid rgba(27, 177, 231, .4);
+        }
+
+        /* ============================================================
+           Work plan timeline
+           ============================================================ */
+        .timeline-container {
+            position: relative;
+            display: grid;
+            gap: 22px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        }
+
+        .tl-card {
+            position: relative;
+            padding: 30px 26px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .tl-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .tl-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .tl-year {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.9rem;
+            font-weight: 700;
+            color: var(--ink-strong);
+            line-height: 1;
+        }
+
+        .tl-state {
+            font-size: .72rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            padding: 5px 11px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .tl-state.done {
+            color: #0e7a54;
+            background: rgba(16, 185, 129, .14);
+        }
+
+        .tl-state.now {
+            color: var(--cyan-700);
+            background: rgba(27, 177, 231, .16);
+        }
+
+        .tl-state.next {
+            color: var(--muted);
+            background: color-mix(in srgb, var(--muted) 13%, transparent);
+        }
+
+        :root[data-theme="dark"] .tl-state.done {
+            color: #4ade9f;
+        }
+
+        :root[data-theme="dark"] .tl-state.now {
             color: var(--cyan);
         }
 
-        /* Contact Section */
-        .contact {
-            background: #ffffff;
-            /* White background */
-            color: var(--navy);
-            /* Dark text for contrast */
-            padding: 60px 0;
-            /* Optional: ensures same vertical spacing as other sections */
+        .tl-bar {
+            height: 4px;
+            border-radius: 4px;
+            background: color-mix(in srgb, var(--muted) 18%, transparent);
+            margin-bottom: 18px;
+            overflow: hidden;
         }
 
-        .contact-info {
-            margin-top: 30px;
+        .tl-bar i {
+            display: block;
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--cyan), var(--navy-700));
         }
 
-        .contact-info p {
-            margin-bottom: 10px;
-            color: var(--navy);
+        .tl-card h3 {
+            margin-bottom: 9px;
         }
 
-        .contact-info a {
+        .tl-card p {
+            font-size: .96rem;
+        }
+
+        /* ============================================================
+           Publications
+           ============================================================ */
+        .publications {
+            background: var(--bg-alt);
+            border-block: 1px solid var(--line);
+        }
+
+        .pub-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .pub {
+            display: grid;
+            grid-template-columns: 152px 1fr auto;
+            gap: 28px;
+            align-items: center;
+            padding: 24px 26px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+        }
+
+        .pub:hover {
+            border-color: color-mix(in srgb, var(--cyan) 45%, var(--line));
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
+        }
+
+        .pub-venue {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 600;
+            font-size: .95rem;
+            color: var(--cyan-700);
+            line-height: 1.3;
+        }
+
+        :root[data-theme="dark"] .pub-venue {
             color: var(--cyan);
-            /* keep your accent color */
-            text-decoration: none;
+        }
+
+        .pub-venue small {
+            display: block;
+            font-family: 'Inter', sans-serif;
+            font-weight: 400;
+            font-size: .78rem;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .pub-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.06rem;
+            font-weight: 600;
+            color: var(--ink-strong);
+            line-height: 1.35;
+            margin-bottom: 6px;
+        }
+
+        .pub-authors {
+            font-size: .88rem;
+            color: var(--muted);
+        }
+
+        .pub-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 17px;
+            border-radius: 999px;
+            border: 1px solid var(--line);
+            font-size: .85rem;
             font-weight: 500;
+            text-decoration: none;
+            color: var(--ink);
+            white-space: nowrap;
+            transition: all .25s ease;
         }
 
-        .contact-info a:hover {
-            text-decoration: underline;
+        .pub-link:hover {
+            border-color: var(--cyan);
+            background: var(--cyan);
+            color: #fff;
         }
 
-        /* Footer */
+        .pub-soon {
+            font-size: .82rem;
+            color: var(--muted);
+            font-style: italic;
+            white-space: nowrap;
+        }
+
+        /* ============================================================
+           News
+           ============================================================ */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(285px, 1fr));
+            gap: 24px;
+        }
+
+        .news-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: color-mix(in srgb, var(--cyan) 35%, var(--line));
+        }
+
+        .news-image {
+            height: 172px;
+            display: grid;
+            place-items: center;
+            padding: 14px;
+            background: var(--bg-alt);
+            border-bottom: 1px solid var(--line);
+            overflow: hidden;
+        }
+
+        .news-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform .45s ease;
+        }
+
+        .news-card:hover .news-image img {
+            transform: scale(1.04);
+        }
+
+        .news-content {
+            padding: 22px 24px 26px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .news-date {
+            display: inline-block;
+            align-self: flex-start;
+            margin-bottom: 11px;
+            padding: 4px 11px;
+            border-radius: 999px;
+            font-size: .74rem;
+            font-weight: 600;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            color: var(--cyan-700);
+            background: color-mix(in srgb, var(--cyan) 12%, transparent);
+        }
+
+        :root[data-theme="dark"] .news-date {
+            color: var(--cyan);
+        }
+
+        .news-content h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .news-content p {
+            font-size: .94rem;
+            margin: 0;
+        }
+
+        /* ============================================================
+           Impact
+           ============================================================ */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+            gap: 22px;
+        }
+
+        .impact-card {
+            padding: 32px 28px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            text-align: center;
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+
+        .impact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .impact-icon {
+            width: 56px;
+            height: 56px;
+            display: grid;
+            place-items: center;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            font-size: 1.4rem;
+            color: #fff;
+            background: linear-gradient(135deg, var(--cyan), var(--navy-700));
+        }
+
+        .impact-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .impact-card p {
+            font-size: .96rem;
+        }
+
+        /* ============================================================
+           Contact
+           ============================================================ */
+        .contact {
+            background: var(--bg-alt);
+            border-top: 1px solid var(--line);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 22px;
+        }
+
+        .contact-card {
+            padding: 30px 28px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+        }
+
+        .contact-card h3 {
+            font-size: 1.08rem;
+            margin-bottom: 14px;
+        }
+
+        .contact-card p {
+            font-size: .95rem;
+            margin-bottom: 6px;
+        }
+
+        .contact-card i {
+            width: 20px;
+            color: var(--cyan);
+            margin-right: 6px;
+        }
+
+        /* ============================================================
+           Footer
+           ============================================================ */
         footer {
-            background: var(--navy);
-            color: var(--white);
-            padding: 50px 0 20px;
+            background: var(--navy-900);
+            color: rgba(255, 255, 255, .7);
+            padding-block: 64px 26px;
         }
 
         .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 1.6fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 44px;
         }
 
         .footer-logo {
-            font-size: 1.5rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.35rem;
             font-weight: 700;
-            margin-bottom: 20px;
+            color: #fff;
+            margin-bottom: 12px;
         }
 
         .footer-logo span {
             color: var(--cyan);
         }
 
-        .footer-links {
-            list-style: none;
+        .footer-content p {
+            color: rgba(255, 255, 255, .62);
+            font-size: .94rem;
         }
 
-        .footer-links li {
-            margin-bottom: 10px;
+        footer h4 {
+            color: #fff;
+            font-size: .8rem;
+            letter-spacing: .13em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        .footer-links {
+            list-style: none;
+            display: grid;
+            gap: 9px;
         }
 
         .footer-links a {
-            color: var(--white);
+            color: rgba(255, 255, 255, .7);
             text-decoration: none;
-            transition: color 0.3s ease;
+            font-size: .94rem;
+            transition: color .2s ease;
         }
 
         .footer-links a:hover {
@@ -493,14 +1196,16 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 30px;
-            margin-top: 30px;
+            gap: 38px;
+            flex-wrap: wrap;
+            padding-block: 30px;
+            border-top: 1px solid rgba(255, 255, 255, .1);
         }
 
         .partner-logos img {
-            height: 50px;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
+            height: 44px;
+            opacity: .72;
+            transition: opacity .3s ease;
         }
 
         .partner-logos img:hover {
@@ -509,745 +1214,747 @@
 
         .copyright {
             text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 0.9rem;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255, 255, 255, .1);
+            font-size: .86rem;
+            color: rgba(255, 255, 255, .52);
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
+        /* ============================================================
+           Scroll reveal
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity .7s cubic-bezier(.2, .7, .3, 1), transform .7s cubic-bezier(.2, .7, .3, 1);
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ============================================================
+           Responsive
+           ============================================================ */
+        @media (max-width: 980px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 820px) {
+            #menu-btn {
+                display: grid;
+            }
+
             .nav-links {
-                display: none;
+                position: fixed;
+                inset: 68px 0 auto 0;
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0;
+                padding: 12px var(--gutter) 22px;
+                background: var(--bg);
+                border-bottom: 1px solid var(--line);
+                box-shadow: var(--shadow-lg);
+                transform: translateY(-130%);
+                transition: transform .35s cubic-bezier(.2, .7, .3, 1);
             }
 
-            .hero h1 {
-                font-size: 2.5rem;
+            .nav-links.open {
+                transform: none;
             }
 
-            .hero p {
-                font-size: 1.1rem;
+            .nav-links a {
+                padding: 13px 10px;
+                font-size: 1rem;
+                border-bottom: 1px solid var(--line);
+                border-radius: 0;
             }
 
-            .timeline-line {
-                left: 31px;
+            .pub {
+                grid-template-columns: 1fr;
+                gap: 14px;
             }
 
-            .timeline-item {
-                width: 100%;
-                padding-left: 70px;
-                padding-right: 25px;
-            }
-
-            .timeline-item:nth-child(even) {
-                left: 0;
-            }
-
-            .timeline-item:nth-child(odd) .timeline-content:after,
-            .timeline-item:nth-child(even) .timeline-content:after {
-                left: -10px;
-                border-right: 10px solid var(--white);
-                border-left: 0;
-            }
-
-            .timeline-dot {
-                left: 21px;
-            }
-
-            .timeline-item:nth-child(even) .timeline-dot {
-                left: 21px;
+            .pub-link,
+            .pub-soon {
+                justify-self: start;
             }
         }
 
-        .hero .logo-graphic {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .hero-logo {
-            /* width: clamp(200px, 35vw, 480px); */
-            width: clamp(280px, 45vw, 600px);
-            height: auto;
-            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
-            transition: transform 0.4s ease, filter 0.4s ease;
-        }
-
-        .hero-logo:hover {
-            transform: scale(1.1);
-            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
-        }
-
-        @keyframes gentle-float {
-
-            0%,
-            100% {
-                transform: translateY(0);
+        @media (max-width: 560px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
             }
 
-            50% {
-                transform: translateY(-5px);
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .person {
+                width: 145px;
+            }
+
+            .person-photo {
+                width: 104px;
+                height: 104px;
             }
         }
 
-        .hero-logo {
-            animation: gentle-float 5s ease-in-out infinite;
-        }
+        @media (prefers-reduced-motion: reduce) {
 
-        .partner-logo {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            height: 100px;
-        }
-
-        .partner-img {
-            max-width: 180px;
-            max-height: 80px;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            transition: transform 0.3s ease, filter 0.3s ease;
-        }
-
-        .partner-img:hover {
-            transform: scale(1.05);
-            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.15));
-        }
-
-        /* Hero Section */
-        .hero {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: var(--white);
-            background-image: url("background.png");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            /* Enables parallax effect */
-            overflow: hidden;
-        }
-
-        .hero .container {
-            position: relative;
-            z-index: 2;
-            /* places text above overlay */
-        }
-
-        .hero-logo {
-            width: clamp(220px, 40vw, 480px);
-            height: auto;
-            margin-bottom: 1.5rem;
-            filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.3));
-            animation: gentle-float 5s ease-in-out infinite;
-        }
-
-        @keyframes gentle-float {
-
-            0%,
-            100% {
-                transform: translateY(0);
+            *,
+            *::before,
+            *::after {
+                animation-duration: .001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .001ms !important;
             }
 
-            50% {
-                transform: translateY(-6px);
+            html {
+                scroll-behavior: auto;
             }
-        }
 
-        .key-investigators {
-            text-align: center;
-            margin-top: 60px;
-        }
-
-        .key-investigators h3 {
-            font-size: 1.8rem;
-            margin-bottom: 2rem;
-            color: var(--navy);
-        }
-
-        .investigators-grid {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 3rem;
-        }
-
-        .investigator-card {
-            text-align: center;
-            max-width: 200px;
-        }
-
-        .investigator-photo {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--navy);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .investigator-photo:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
-        }
-
-        .investigator-card h4 {
-            margin-top: 1rem;
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-
-        .investigator-card p {
-            margin-top: 0.3rem;
-            font-size: 0.95rem;
-            color: var(--text-light);
-        }
-
-        /* Partners Section with Parallax */
-        .partners {
-            position: relative;
-            background-image: url("background-b.png");
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            /* creates parallax */
-            color: var(--white);
-            padding: 6rem 0;
-            overflow: hidden;
-        }
-
-        .partners .container {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Adjust existing elements for contrast */
-        .partners h2,
-        .partners h3,
-        .partners p {
-            color: var(--white);
-        }
-
-        .partner-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(6px);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .partner-card:hover {
-            transform: translateY(-5px);
-        }
-
-        /* News Section */
-        .news {
-            background: var(--light-gray);
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .news-card {
-            background: var(--white);
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .news-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
-        }
-
-        .news-image {
-            width: 100%;
-            max-height: 200px;
-            /* adjust height as needed */
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .news-image img {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            /* preserve aspect ratio */
-            height: auto;
-            /* preserve aspect ratio */
-            object-fit: contain;
-            /* shrink to fit */
-        }
-
-        .news-content {
-            padding: 20px 22px 24px;
-        }
-
-        .news-content h3 {
-            font-size: 1.2rem;
-            color: var(--navy);
-            margin-bottom: 10px;
-        }
-
-        .news-content p {
-            font-size: 0.98rem;
-            margin-bottom: 0;
+            .reveal {
+                opacity: 1;
+                transform: none;
+            }
         }
     </style>
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
+    <!-- ================= Header ================= -->
+    <header id="site-header">
         <div class="container">
             <nav>
-                <a href="#" class="logo">D3<span>-CONNECT</span></a>
-                <ul class="nav-links">
+                <a href="#hero" class="logo">D3<span>-CONNECT</span></a>
+                <ul class="nav-links" id="nav-links">
                     <li><a href="#about">About</a></li>
                     <li><a href="#objectives">Objectives</a></li>
-                    <li><a href="#partners">Partners</a></li>
+                    <li><a href="#partners">Team</a></li>
                     <li><a href="#timeline">Work Plan</a></li>
-                    <li><a href="#impact">Impact</a></li>
+                    <li><a href="#publications">Publications</a></li>
                     <li><a href="#news">News</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
+                <div class="nav-tools">
+                    <button class="icon-btn" id="theme-btn" aria-label="Toggle dark mode">
+                        <i class="fas fa-moon" aria-hidden="true"></i>
+                    </button>
+                    <button class="icon-btn" id="menu-btn" aria-label="Toggle menu" aria-expanded="false"
+                        aria-controls="nav-links">
+                        <i class="fas fa-bars" aria-hidden="true"></i>
+                    </button>
+                </div>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- ================= Hero ================= -->
     <section class="hero" id="hero">
-        <div class="hero-overlay"></div>
+        <div class="hero-bg"></div>
         <div class="container">
-            <div class="hero-content">
-                <div class="logo-graphic">
-                    <img src="logo.svg" alt="D3-CONNECT Logo" class="hero-logo" />
-                </div>
-                <h1>D3<span>-CONNECT</span></h1>
-                <h3>Democratized Direct-to-Device Satellite Communication Networks</h3>
-                <p>
-                    A joint initiative between Inria Lyon and UC Berkeley to build open and inclusive
-                    Direct-to-Device satellite networks.
-                </p>
-                <a href="#about" class="btn">Learn More</a>
+            <div class="hero-badge"><span class="pulse"></span> Inria Associate Team &middot; 2025&ndash;2027</div>
+            <div class="hero-logo-wrap"><img src="logo.svg" alt="" class="hero-logo"></div>
+            <h1>D3<span>-CONNECT</span></h1>
+            <p class="tagline">Democratized Direct-to-Device Satellite Communication Networks</p>
+            <p class="lede">A joint initiative between Inria Lyon and UC Berkeley to build open and inclusive
+                direct-to-device satellite networks.</p>
+            <div class="hero-actions">
+                <a href="#about" class="btn">Explore the project</a>
+                <a href="#publications" class="btn btn-ghost">Read our papers</a>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
+    <!-- ================= About ================= -->
     <section id="about" class="about">
         <div class="container">
-            <h2>About</h2>
-            <p>D3-CONNECT is a 2025–2027 Associate Team between Inria Agora (France) and UC Berkeley (USA), focused on
-                revolutionizing satellite communication networks.</p>
-            <p>Our mission is to democratize direct-to-device satellite communications by developing inclusive
-                architectures that enable both large and small space actors to participate in the emerging D2D
-                ecosystem. We aim to break down barriers to entry and create a more equitable space communication
-                infrastructure.</p>
+            <div class="about-grid reveal">
+                <div>
+                    <div class="eyebrow">About</div>
+                    <p class="lead">D3-CONNECT is a 2025&ndash;2027 Associate Team between Inria Agora (France) and UC
+                        Berkeley (USA), rethinking how satellite networks reach ordinary devices.</p>
+                    <p>Our mission is to democratize direct-to-device satellite communications by developing inclusive
+                        architectures that let both large and small space actors participate in the emerging D2D
+                        ecosystem. We aim to break down barriers to entry and create a more equitable space
+                        communication infrastructure.</p>
+                    <p>The work spans analytical modeling, constellation simulation and system architecture, from
+                        beam-level physical constraints on a single satellite up to the economics of sharing a
+                        constellation between several operators.</p>
+                </div>
+                <div class="stats">
+                    <div class="stat">
+                        <div class="stat-n">3</div>
+                        <div class="stat-l">Peer-reviewed papers published</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-n">5</div>
+                        <div class="stat-l">Talks, lectures and invited sessions</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-n">2</div>
+                        <div class="stat-l">PhD students supported by the team</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-n">3</div>
+                        <div class="stat-l">Institutions across France and the US</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Objectives Section -->
+    <!-- ================= Objectives ================= -->
     <section id="objectives" class="objectives">
         <div class="container">
-            <h2>Objectives</h2>
-            <div class="objectives-grid">
+            <div class="sec-head reveal">
+                <div class="eyebrow">Objectives</div>
+                <h2>Four goals that shape the work</h2>
+                <p>Each objective pairs a modeling question with a concrete artifact the community can reuse.</p>
+            </div>
+            <div class="objectives-grid reveal">
                 <div class="objective-card">
-                    <div class="objective-icon">
-                        <i class="fas fa-globe"></i>
-                    </div>
-                    <h3>Democratize Access</h3>
-                    <p>Empower small satellite operators and IoT providers by creating accessible communication
-                        protocols that don't require massive infrastructure investments.</p>
+                    <div class="objective-icon"><i class="fas fa-globe" aria-hidden="true"></i></div>
+                    <h3>Democratize access</h3>
+                    <p>Empower small satellite operators and IoT providers with accessible communication protocols that
+                        do not require massive infrastructure investments.</p>
                 </div>
                 <div class="objective-card">
-                    <div class="objective-icon">
-                        <i class="fas fa-satellite"></i>
-                    </div>
-                    <h3>Innovate Architectures</h3>
-                    <p>Combine space and terrestrial network designs to create hybrid systems that leverage the
-                        strengths of both approaches for optimal performance.</p>
+                    <div class="objective-icon"><i class="fas fa-satellite" aria-hidden="true"></i></div>
+                    <h3>Innovate architectures</h3>
+                    <p>Combine space and terrestrial network designs into hybrid systems that leverage the strengths of
+                        both approaches for optimal performance.</p>
                 </div>
                 <div class="objective-card">
-                    <div class="objective-icon">
-                        <i class="fas fa-cogs"></i>
-                    </div>
-                    <h3>Model & Simulate</h3>
-                    <p>Develop comprehensive tools to evaluate multi-tenant D2D systems, enabling accurate performance
-                        predictions and optimization.</p>
+                    <div class="objective-icon"><i class="fas fa-cogs" aria-hidden="true"></i></div>
+                    <h3>Model &amp; simulate</h3>
+                    <p>Develop tools to evaluate multi-tenant D2D systems, from beam-level hardware constraints to
+                        constellation-scale coverage and capacity.</p>
                 </div>
                 <div class="objective-card">
-                    <div class="objective-icon">
-                        <i class="fas fa-handshake"></i>
-                    </div>
-                    <h3>Collaborate Globally</h3>
-                    <p>Connect research excellence from Inria and Berkeley to create solutions that address global
-                        connectivity challenges with local relevance.</p>
+                    <div class="objective-icon"><i class="fas fa-handshake" aria-hidden="true"></i></div>
+                    <h3>Collaborate globally</h3>
+                    <p>Connect research excellence from Inria and Berkeley to address global connectivity challenges with
+                        local relevance.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Partners Section -->
+    <!-- ================= Partners & Team ================= -->
     <section id="partners" class="partners">
-        <div class="partners-overlay"></div>
+        <div class="partners-bg"></div>
         <div class="container">
-            <h2>Partners</h2>
-            <div class="partners-grid">
-
-                <!-- Inria -->
+            <div class="sec-head reveal">
+                <div class="eyebrow">Partners</div>
+                <h2>Two labs, one research agenda</h2>
+            </div>
+            <div class="partners-grid reveal">
                 <div class="partner-card">
-                    <div class="partner-logo">
-                        <img src="logo-inria-w.svg" alt="Inria Logo" class="partner-img" />
-                    </div>
-                    <h3>Inria Lyon – Agora Team</h3>
-                    <p>France</p>
-                    <div class="partner-bio">
-                        <p>Experts in satellite-terrestrial IoT and delay-tolerant networking, with extensive experience
-                            in designing communication protocols for challenging environments.</p>
-                    </div>
+                    <div class="partner-logo"><img src="logo-inria-w.svg" alt="Inria" class="partner-img"></div>
+                    <div class="role">Main team</div>
+                    <h3>Inria Lyon &ndash; Agora</h3>
+                    <p class="where">France</p>
+                    <p class="partner-bio">Experts in satellite-terrestrial IoT and delay-tolerant networking, with
+                        extensive experience designing communication protocols for challenging environments.</p>
                 </div>
-
-                <!-- UC Berkeley -->
                 <div class="partner-card">
-                    <div class="partner-logo">
-                        <img src="logo-ucb-w.svg" alt="UC Berkeley Logo" class="partner-img" />
-                    </div>
-                    <h3>UC Berkeley – NetSys Group</h3>
-                    <p>USA</p>
-                    <div class="partner-bio">
-                        <p>Pioneers in decentralized mobile architectures (CellBricks), bringing cutting-edge research
-                            in network systems and distributed computing.</p>
-                    </div>
+                    <div class="partner-logo"><img src="logo-ucb-w.svg" alt="UC Berkeley" class="partner-img"></div>
+                    <div class="role">Partner team</div>
+                    <h3>UC Berkeley &ndash; NetSys</h3>
+                    <p class="where">USA</p>
+                    <p class="partner-bio">Pioneers in decentralized mobile architectures (CellBricks), bringing
+                        cutting-edge research in network systems and distributed computing.</p>
                 </div>
-
             </div>
 
-            <!-- Key Investigators -->
-            <div class="key-investigators">
-                <h3>Key Investigators</h3>
-                <div class="investigators-grid">
-                    <div class="investigator-card">
-                        <img src="pic-fraire.jpg" alt="Dr. Juan Fraire" class="investigator-photo" />
+            <div class="people reveal">
+                <h3>Principal investigators</h3>
+                <p class="sub">The researchers steering the Associate Team.</p>
+                <div class="people-grid">
+                    <div class="person">
+                        <img src="pic-fraire.jpg" alt="Juan Fraire" class="person-photo">
                         <h4>Dr. Juan Fraire</h4>
-                        <p>Inria Lyon – Agora Team</p>
+                        <p>Inria Lyon &ndash; Agora</p>
+                        <span class="tag">PI, Inria</span>
                     </div>
-
-                    <div class="investigator-card">
-                        <img src="pic-ratnasamy.jpg" alt="Prof. Sylvia Ratnasamy" class="investigator-photo" />
+                    <div class="person">
+                        <img src="pic-ratnasamy.jpg" alt="Sylvia Ratnasamy" class="person-photo">
                         <h4>Prof. Sylvia Ratnasamy</h4>
-                        <p>UC Berkeley – NetSys Group</p>
+                        <p>UC Berkeley &ndash; NetSys</p>
+                        <span class="tag">PI, Berkeley</span>
                     </div>
-
-                    <div class="investigator-card">
-                        <img src="pic-shenker.jpg" alt="Prof. Scott Shenker" class="investigator-photo" />
+                    <div class="person">
+                        <img src="pic-shenker.jpg" alt="Scott Shenker" class="person-photo">
                         <h4>Prof. Scott Shenker</h4>
-                        <p>UC Berkeley – NetSys Group</p>
+                        <p>UC Berkeley &ndash; NetSys / ICSI</p>
+                        <span class="tag">PI, Berkeley</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="people reveal">
+                <h3>Researchers and collaborators</h3>
+                <p class="sub">The people doing the day-to-day science, several of them funded by the Associate Team.</p>
+                <div class="people-grid">
+                    <div class="person">
+                        <img src="pic-woo.jpg" alt="Wesley Woo" class="person-photo">
+                        <h4>Wesley Woo</h4>
+                        <p>PhD student, Virginia Tech</p>
+                        <span class="tag">Coverage &amp; capacity</span>
+                    </div>
+                    <div class="person">
+                        <img src="pic-ukyab.jpg" alt="Tenzin Samten Ukyab" class="person-photo">
+                        <h4>Tenzin S. Ukyab</h4>
+                        <p>PhD student, UC Berkeley</p>
+                        <span class="tag">Beams &amp; access</span>
+                    </div>
+                    <div class="person">
+                        <img src="pic-hasan.jpg" alt="Shaddi Hasan" class="person-photo">
+                        <h4>Prof. Shaddi Hasan</h4>
+                        <p>Virginia Tech</p>
+                        <span class="tag">Collaborator</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Timeline Section -->
+    <!-- ================= Work plan ================= -->
     <section id="timeline" class="timeline">
         <div class="container">
-            <h2>Work Plan</h2>
-            <div class="timeline-container">
-                <div class="timeline-line"></div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-year">2025</div>
-                        <h3>Phase 1: Foundation</h3>
-                        <p>Use case definition, architecture design, and initial modeling tools development.
-                            Establishing collaboration frameworks between teams.</p>
+            <div class="sec-head reveal">
+                <div class="eyebrow">Work plan</div>
+                <h2>Three years, three phases</h2>
+                <p>From shared use cases and first models to an integrated, disseminated set of tools.</p>
+            </div>
+            <div class="timeline-container reveal">
+                <div class="tl-card">
+                    <div class="tl-top">
+                        <div class="tl-year">2025</div>
+                        <span class="tl-state done">Complete</span>
                     </div>
+                    <div class="tl-bar"><i style="width:100%"></i></div>
+                    <h3>Phase 1: Foundation</h3>
+                    <p>Use case definition, architecture design and initial modeling tools. Kickoff workshop at Berkeley
+                        and the first joint publications.</p>
                 </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-year">2026</div>
-                        <h3>Phase 2: Development</h3>
-                        <p>Simulation and performance evaluation of proposed architectures. Iterative refinement based
-                            on real-world testing scenarios.</p>
+                <div class="tl-card">
+                    <div class="tl-top">
+                        <div class="tl-year">2026</div>
+                        <span class="tl-state now">In progress</span>
                     </div>
+                    <div class="tl-bar"><i style="width:62%"></i></div>
+                    <h3>Phase 2: Development</h3>
+                    <p>Simulation and performance evaluation of the proposed architectures: beam-level modeling,
+                        infrastructure sharing economics, and iterative refinement against real deployment data.</p>
                 </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-content">
-                        <div class="timeline-year">2027</div>
-                        <h3>Phase 3: Integration</h3>
-                        <p>System integration and dissemination of results. Preparation for technology transfer and
-                            implementation planning.</p>
+                <div class="tl-card">
+                    <div class="tl-top">
+                        <div class="tl-year">2027</div>
+                        <span class="tl-state next">Upcoming</span>
                     </div>
+                    <div class="tl-bar"><i style="width:0%"></i></div>
+                    <h3>Phase 3: Integration</h3>
+                    <p>System integration and dissemination of results, with preparation for technology transfer and
+                        implementation planning.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Impact Section -->
+    <!-- ================= Publications ================= -->
+    <section id="publications" class="publications">
+        <div class="container">
+            <div class="sec-head reveal">
+                <div class="eyebrow">Publications</div>
+                <h2>What the collaboration has produced</h2>
+                <p>Peer-reviewed output from the Associate Team, newest first.</p>
+            </div>
+            <div class="pub-list reveal">
+
+                <article class="pub">
+                    <div class="pub-venue">LEO-NET &rsquo;26<small>ACM SIGCOMM workshop &middot; Denver</small></div>
+                    <div>
+                        <div class="pub-title">Beyond the Cone Model: Quantifying the Impact of Beam-Level Constraints on
+                            LEO Satellite Networks</div>
+                        <div class="pub-authors">W. Woo, T. S. Ukyab, J. A. Fraire, S. Shenker, S. Ratnasamy, S. Hasan
+                            &middot; August 2026</div>
+                    </div>
+                    <a class="pub-link" href="https://doi.org/10.1145/3789240.3827588" target="_blank"
+                        rel="noopener">ACM DL <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                </article>
+
+                <article class="pub">
+                    <div class="pub-venue">MobiArch &rsquo;25<small>ACM MobiCom workshop &middot; Hong Kong</small>
+                    </div>
+                    <div>
+                        <div class="pub-title">Adaptive Orbital Direct-to-Device: Rethinking Satellite IoT Architectures
+                        </div>
+                        <div class="pub-authors">H. B. Pasandi, M. Hosseini, S. Darabi, F. Rousseau, J. A. Fraire
+                            &middot; November 2025</div>
+                    </div>
+                    <a class="pub-link" href="https://dl.acm.org/doi/pdf/10.1145/3737897.3767293" target="_blank"
+                        rel="noopener">ACM DL <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                </article>
+
+                <article class="pub">
+                    <div class="pub-venue">HotNets &rsquo;25<small>ACM SIGCOMM HotNets</small></div>
+                    <div>
+                        <div class="pub-title">Anyone, Anywhere, not Everyone, Everywhere: Starlink Doesn&rsquo;t End the
+                            Digital Divide</div>
+                        <div class="pub-authors">W. Woo, J. A. Fraire, S. Ratnasamy, S. Shenker, S. Hasan &middot;
+                            November 2025</div>
+                    </div>
+                    <a class="pub-link" href="https://dl.acm.org/doi/10.1145/3772356.3772383" target="_blank"
+                        rel="noopener">ACM DL <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+                </article>
+
+                <article class="pub">
+                    <div class="pub-venue">Journal<small>Under preparation</small></div>
+                    <div>
+                        <div class="pub-title">An Analytical Cost Model for Infrastructure Sharing Architecture Selection
+                            in Direct-to-Cellular Satellite Networks</div>
+                        <div class="pub-authors">Extending our infrastructure-sharing framework into a full journal
+                            article, with a closed-form feasibility law for multi-tenant constellations</div>
+                    </div>
+                    <span class="pub-soon">Coming soon</span>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= News ================= -->
+    <section id="news" class="news">
+        <div class="container">
+            <div class="sec-head reveal">
+                <div class="eyebrow">News</div>
+                <h2>Latest from the team</h2>
+            </div>
+            <div class="news-grid reveal">
+
+                <!-- STINT 2026 -->
+                <article class="news-card">
+                    <div class="news-image"><img src="news-7-stint.jpg" alt="STINT 2026 workshop"></div>
+                    <div class="news-content">
+                        <span class="news-date">September 2026</span>
+                        <h3>Two invited talks at STINT 2026</h3>
+                        <p>Wesley Woo and Tenzin Ukyab travelled to Leuven for a dedicated D3-CONNECT session at the
+                            <a href="https://stintworkshops.org/" target="_blank" rel="noopener">STINT 2026</a>
+                            Space-Terrestrial Internetworking Workshop, co-located with IEEE WiSEE 2026. Both invited
+                            talks were funded by the Associate Team.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Saarland guest lecture -->
+                <article class="news-card">
+                    <div class="news-image"><img src="news-6-saarland.jpg"
+                            alt="Wesley Woo lecturing at Saarland University"></div>
+                    <div class="news-content">
+                        <span class="news-date">September 2026</span>
+                        <h3>Guest lecture at Saarland University</h3>
+                        <p>Wesley Woo joined the
+                            <a href="https://dcms.cs.uni-saarland.de/spain_26/" target="_blank"
+                                rel="noopener">Space Informatics</a>
+                            course taught by J. Fraire and H. Hermanns, with a guest lecture on
+                            <em>Towards System-wide Modeling of Coverage and Capacity of LEO Constellations</em>.
+                            The visit was funded by the Associate Team.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- LEO-NET 2026 -->
+                <article class="news-card">
+                    <div class="news-image"><img src="news-5-cone.png"
+                            alt="Beam placement output from the beam-level model"></div>
+                    <div class="news-content">
+                        <span class="news-date">August 2026</span>
+                        <h3>LEO-NET 2026 paper in Denver</h3>
+                        <p>Our paper <em>&ldquo;Beyond the Cone Model&rdquo;</em> was accepted and presented at
+                            <a href="https://leo-net-workshop.github.io/2026/" target="_blank" rel="noopener">LEO-NET
+                                2026</a>, co-located with ACM SIGCOMM. It shows how the cone abstraction used by most LEO
+                            simulators overstates coverage once real beam counts and beam capacity are taken into
+                            account.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Infra sharing -->
+                <article class="news-card">
+                    <div class="news-image"><img src="news-2-share.png"
+                            alt="Infrastructure sharing for satellite networks"></div>
+                    <div class="news-content">
+                        <span class="news-date">2025 &ndash; 2026</span>
+                        <h3>Infrastructure sharing for satellite networks</h3>
+                        <p>Our framework for <em>infrastructure sharing</em> adapts terrestrial models such as MORAN,
+                            MOCN and roaming to LEO and GEO constellations, letting a satellite operator support several
+                            mobile network operators at once. The work is now being extended into a full journal article
+                            built around a closed-form feasibility law.</p>
+                    </div>
+                </article>
+
+                <!-- IETF 124 -->
+                <article class="news-card">
+                    <div class="news-image"><img src="news-3-ietf.png" alt="IETF 124 participation"></div>
+                    <div class="news-content">
+                        <span class="news-date">November 2025</span>
+                        <h3>Participation at IETF 124</h3>
+                        <p>D3-CONNECT members took part in IETF 124 in Montreal. Our HotNets 2025 paper was presented
+                            (<a href="https://datatracker.ietf.org/meeting/124/materials/slides-124-gaia-anyone-anywhere-but-not-everyone-everywhere-starlink-doesnt-close-the-digital-divide-00"
+                                target="_blank" rel="noopener">slides</a>), and discussions were held within the
+                            <a href="https://datatracker.ietf.org/rg/space/about/" target="_blank" rel="noopener">SPACE
+                                RG</a>, chaired by J. Fraire.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- MobiArch -->
+                <article class="news-card">
+                    <div class="news-image"><img src="news-4-paper-hannah.png" alt="MobiArch 2025 paper"></div>
+                    <div class="news-content">
+                        <span class="news-date">November 2025</span>
+                        <h3>MobiArch 2025 paper</h3>
+                        <p>We published collaborative work in the 20th Workshop on Mobility in the Evolving Internet
+                            Architecture (<a href="https://dl.acm.org/doi/proceedings/10.1145/3737897" target="_blank"
+                                rel="noopener">MobiArch 2025</a>, MobiCom), entitled <em>&ldquo;Adaptive Orbital
+                                Direct-to-Device: Rethinking Satellite IoT Architectures&rdquo;</em>.</p>
+                    </div>
+                </article>
+
+                <!-- HotNets -->
+                <article class="news-card">
+                    <div class="news-image"><img src="news-2-paper.png" alt="HotNets 2025 paper"></div>
+                    <div class="news-content">
+                        <span class="news-date">November 2025</span>
+                        <h3>ACM HotNets 2025 paper</h3>
+                        <p>Led by Wesley Woo, we published our first results in the proceedings of
+                            <a href="https://conferences.sigcomm.org/hotnets/2025/accepted.html" target="_blank"
+                                rel="noopener">HotNets 2025</a>, in <em>&ldquo;Anyone, Anywhere, not Everyone,
+                                Everywhere: Starlink Doesn&rsquo;t End the Digital Divide&rdquo;</em>.
+                        </p>
+                    </div>
+                </article>
+
+                <!-- Kickoff -->
+                <article class="news-card">
+                    <div class="news-image"><img src="news-1-ko.png" alt="D3-CONNECT kickoff workshop"></div>
+                    <div class="news-content">
+                        <span class="news-date">May 2025</span>
+                        <h3>D3-CONNECT kickoff workshop</h3>
+                        <p>Inria Lyon and UC Berkeley launched the initiative with a joint workshop at UC Berkeley,
+                            followed by a visit to the <a href="https://www.spacetechexpo.com/" target="_blank"
+                                rel="noopener">Space Tech Expo</a> in Los Angeles to engage with industry partners.</p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= Impact ================= -->
     <section id="impact" class="impact">
         <div class="container">
-            <h2>Impact</h2>
-            <p>D3-CONNECT fosters open collaboration, expands global connectivity, and reduces barriers to entry in
-                space networking. Our work has the potential to transform how satellite communications are deployed and
-                managed worldwide.</p>
-
-            <div class="impact-grid">
+            <div class="sec-head reveal">
+                <div class="eyebrow">Impact</div>
+                <h2>Why it matters beyond the lab</h2>
+                <p>D3-CONNECT fosters open collaboration, expands global connectivity and reduces barriers to entry in
+                    space networking.</p>
+            </div>
+            <div class="impact-grid reveal">
                 <div class="impact-card">
-                    <div class="impact-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
+                    <div class="impact-icon"><i class="fas fa-network-wired" aria-hidden="true"></i></div>
                     <h3>Global IoT</h3>
-                    <p>Enable seamless IoT connectivity across remote areas without terrestrial infrastructure,
-                        supporting agriculture, environmental monitoring, and logistics.</p>
+                    <p>Seamless IoT connectivity across remote areas without terrestrial infrastructure, supporting
+                        agriculture, environmental monitoring and logistics.</p>
                 </div>
                 <div class="impact-card">
-                    <div class="impact-icon">
-                        <i class="fas fa-first-aid"></i>
-                    </div>
-                    <h3>Emergency Response</h3>
-                    <p>Provide reliable communication during disasters when terrestrial networks are compromised, saving
-                        lives through better coordination.</p>
+                    <div class="impact-icon"><i class="fas fa-first-aid" aria-hidden="true"></i></div>
+                    <h3>Emergency response</h3>
+                    <p>Reliable communication during disasters when terrestrial networks are compromised, saving lives
+                        through better coordination.</p>
                 </div>
                 <div class="impact-card">
-                    <div class="impact-icon">
-                        <i class="fas fa-ship"></i>
-                    </div>
-                    <h3>Maritime Connectivity</h3>
-                    <p>Bridge communication gaps for ships at sea, improving safety, navigation, and operational
+                    <div class="impact-icon"><i class="fas fa-ship" aria-hidden="true"></i></div>
+                    <h3>Maritime connectivity</h3>
+                    <p>Bridging communication gaps for ships at sea, improving safety, navigation and operational
                         efficiency for maritime industries.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- News Section -->
-    <section id="news" class="news">
-        <div class="container">
-            <h2>News</h2>
-            <div class="news-grid">
-
-                <!-- News item 1 -->
-                <article class="news-card">
-                    <div class="news-image">
-                        <img src="news-1-ko.png" alt="D3-CONNECT workshop announcement">
-                    </div>
-                    <div class="news-content">
-                        <h3>D3-CONNECT Kickoff Workshop</h3>
-                        <span class="news-date">May 2025</span>
-                        <p>
-                            Inria Lyon and UC Berkeley launched the D3-CONNECT initiative with a joint workshop at UC
-                            Berkeley,
-                            followed by a visit to the <a href="https://www.spacetechexpo.com/" target="_blank">Space
-                                Tech Expo</a>
-                            in Los Angeles to engage with industry partners and explore emerging trends in satellite
-                            systems.
-                        </p>
-                    </div>
-                </article>
-
-                <!-- News item 2a -->
-                <article class="news-card">
-                    <div class="news-image">
-                        <img src="news-2-share.png" alt="Infrastructure Sharing for Satellite Networks">
-                    </div>
-                    <div class="news-content">
-                        <h3>Research on Infra Sharing</h3>
-                        <span class="news-date">July 2025</span>
-                        <p>
-                            We are developing a new framework for <em>infrastructure sharing in
-                                satellite
-                                networks</em>, adapting terrestrial models such as MORAN, MOCN, and roaming to LEO and
-                            GEO constellations.
-                            This work proposes a hybrid architecture where Satellite Network Operators (SNOs) can
-                            flexibly support
-                            multiple Mobile Network Operator (MNO) partnerships while optimizing the network.
-                        </p>
-                    </div>
-                </article>
-
-                <!-- News item 2b -->
-                <article class="news-card">
-                    <div class="news-image">
-                        <img src="news-2-paper.png" alt="Conference presentation">
-                    </div>
-                    <div class="news-content">
-                        <h3>ACM HotNets 2025 Paper</h3>
-                        <span class="news-date">November 2025</span>
-                        <p>
-                            Led by Wesley Woo, PhD student supervised by UC Berkeley members, we published our first
-                            results in the
-                            proceedings of <a href="https://conferences.sigcomm.org/hotnets/2025/accepted.html"
-                                target="_blank">HotNets 2025</a>
-                            in our paper entitled <em>“Anyone, Anywhere, not Everyone, Everywhere: Starlink Doesn’t End
-                                the Digital Divide”</em>,
-                            available at <a href="https://dl.acm.org/doi/10.1145/3772356.3772383" target="_blank">the
-                                ACM Digital Library</a>.
-                        </p>
-                    </div>
-                </article>
-
-                <!-- News item 3 -->
-                <article class="news-card">
-                    <div class="news-image">
-                        <img src="news-3-ietf.png" alt="Student visit">
-                    </div>
-                    <div class="news-content">
-                        <h3>Participation at the IETF 124</h3>
-                        <span class="news-date">November 2025</span>
-                        <p>
-                            D3-CONNECT members participated in the IETF 124 meeting in Montreal, engaging with the
-                            broader networking
-                            community. Our HotNets 2025 paper was presented
-                            (<a href="https://datatracker.ietf.org/meeting/124/materials/slides-124-gaia-anyone-anywhere-but-not-everyone-everywhere-starlink-doesnt-close-the-digital-divide-00"
-                                target="_blank">slides available here</a>),
-                            and discussions were held within the
-                            <a href="https://datatracker.ietf.org/rg/space/about/" target="_blank">SPACE RG</a>,
-                            chaired by J. Fraire (Inria).
-                        </p>
-                    </div>
-                </article>
-
-                <!-- News item 4 -->
-                <article class="news-card">
-                    <div class="news-image">
-                        <img src="news-4-paper-hannah.png" alt="Paper by Hannah Pasandi">
-                    </div>
-                    <div class="news-content">
-                        <h3>MobiArch 2025 Paper</h3>
-                        <span class="news-date">November 2025</span>
-                        <p>
-                            We published our collaborative work in the Proceedings of the 20th Workshop on Mobility in
-                            the Evolving Internet Architecture
-                            (<a href="https://dl.acm.org/doi/proceedings/10.1145/3737897" target="_blank">MobiArch
-                                2025</a>, MOBICOM).
-                            The paper, entitled
-                            <em>“Adaptive Orbital Direct-to-Device: Rethinking Satellite IoT Architectures”</em>,
-                            is available
-                            <a href="https://dl.acm.org/doi/pdf/10.1145/3737897.3767293" target="_blank">here</a>.
-                        </p>
-                    </div>
-                </article>
-
-                
-
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
+    <!-- ================= Contact ================= -->
     <section id="contact" class="contact">
         <div class="container">
-            <h2>Contact</h2>
-            <div class="contact-info">
-                <p><strong>Inria Lyon – Agora Team</strong></p>
-                <p>Website: <a href="https://team.inria.fr/agora" target="_blank">https://team.inria.fr/agora</a></p>
-                <p>Principal Investigator: Dr. Juan Fraire</p>
+            <div class="sec-head reveal">
+                <div class="eyebrow">Contact</div>
+                <h2>Get in touch</h2>
+                <p>We welcome collaboration on modeling, simulation and open architectures for direct-to-device satellite
+                    networks.</p>
+            </div>
+            <div class="contact-grid reveal">
+                <div class="contact-card">
+                    <h3>Principal investigator</h3>
+                    <p><i class="fas fa-user" aria-hidden="true"></i> Dr. Juan Fraire</p>
+                    <p><i class="fas fa-building-columns" aria-hidden="true"></i> Inria Lyon &ndash; Agora Team</p>
+                </div>
+                <div class="contact-card">
+                    <h3>Main team</h3>
+                    <p><i class="fas fa-link" aria-hidden="true"></i> <a href="https://team.inria.fr/agora"
+                            target="_blank" rel="noopener">team.inria.fr/agora</a></p>
+                    <p><i class="fas fa-location-dot" aria-hidden="true"></i> Lyon, France</p>
+                </div>
+                <div class="contact-card">
+                    <h3>Partner team</h3>
+                    <p><i class="fas fa-link" aria-hidden="true"></i> <a href="https://netsys.cs.berkeley.edu"
+                            target="_blank" rel="noopener">netsys.cs.berkeley.edu</a></p>
+                    <p><i class="fas fa-location-dot" aria-hidden="true"></i> Berkeley, California, USA</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ================= Footer ================= -->
     <footer>
         <div class="container">
             <div class="footer-content">
                 <div>
                     <div class="footer-logo">D3<span>-CONNECT</span></div>
-                    <p>Democratized Direct-to-Device<br>Satellite Communication Networks</p>
+                    <p>Democratized Direct-to-Device Satellite Communication Networks.<br>An Inria Associate Team with UC
+                        Berkeley, 2025&ndash;2027.</p>
                 </div>
                 <div>
-                    <h3>Quick Links</h3>
+                    <h4>Explore</h4>
                     <ul class="footer-links">
                         <li><a href="#about">About</a></li>
                         <li><a href="#objectives">Objectives</a></li>
-                        <li><a href="#partners">Partners</a></li>
+                        <li><a href="#partners">Team</a></li>
                         <li><a href="#timeline">Work Plan</a></li>
-                        <li><a href="#impact">Impact</a></li>
+                        <li><a href="#publications">Publications</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h3>Connect</h3>
+                    <h4>Connect</h4>
                     <ul class="footer-links">
-                        <li><a href="#contact">Contact Us</a></li>
-                        <li><a href="https://team.inria.fr/agora" target="_blank">Inria Agora</a></li>
-                        <li><a href="https://netsys.cs.berkeley.edu" target="_blank">UC Berkeley NetSys</a></li>
+                        <li><a href="#contact">Contact us</a></li>
+                        <li><a href="https://team.inria.fr/agora" target="_blank" rel="noopener">Inria Agora</a></li>
+                        <li><a href="https://netsys.cs.berkeley.edu" target="_blank" rel="noopener">UC Berkeley
+                                NetSys</a></li>
+                        <li><a href="https://www.inria.fr/en/inria-associate-teams" target="_blank"
+                                rel="noopener">Inria Associate Teams</a></li>
                     </ul>
                 </div>
             </div>
 
             <div class="partner-logos">
-                <img src="logo-inria-w.svg" alt="Inria Logo" class="partner-mini-logo" />
-                <img src="logo-ucb-w.svg" alt="UC Berkeley Logo" class="partner-mini-logo" />
+                <img src="logo-inria-w.svg" alt="Inria">
+                <img src="logo-ucb-w.svg" alt="UC Berkeley">
             </div>
 
             <div class="copyright">
-                <p>&copy; 2025 D3-CONNECT Research Project. All rights reserved.</p>
+                <p>&copy; 2025&ndash;2026 D3-CONNECT Research Project.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
+        (function () {
+            'use strict';
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+            /* ---- Theme ---- */
+            var root = document.documentElement;
+            var themeBtn = document.getElementById('theme-btn');
+            var icon = themeBtn.querySelector('i');
 
-        // Animation for satellite orbit
-        const satellite = document.querySelector('.satellite');
-        let angle = 0;
-
-        function animateOrbit() {
-            angle += 0.5;
-            if (angle >= 360) angle = 0;
-
-            const radius = 80;
-            const x = Math.cos(angle * Math.PI / 180) * radius;
-            const y = Math.sin(angle * Math.PI / 180) * radius;
-
-            satellite.style.transform = `translate(${x}px, ${y}px)`;
-
-            requestAnimationFrame(animateOrbit);
-        }
-
-        // Start the animation
-        animateOrbit();
-
-        // Header scroll effect
-        window.addEventListener('scroll', function () {
-            const header = document.querySelector('header');
-            if (window.scrollY > 50) {
-                header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-            } else {
-                header.style.boxShadow = 'none';
+            function paint(mode) {
+                root.setAttribute('data-theme', mode);
+                icon.className = mode === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+                var meta = document.querySelector('meta[name="theme-color"]');
+                if (meta) meta.setAttribute('content', mode === 'dark' ? '#07131f' : '#002B5C');
             }
-        });
+
+            var stored = null;
+            try { stored = localStorage.getItem('d3-theme'); } catch (e) { }
+            paint(stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+
+            themeBtn.addEventListener('click', function () {
+                var next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+                paint(next);
+                try { localStorage.setItem('d3-theme', next); } catch (e) { }
+            });
+
+            /* ---- Mobile menu ---- */
+            var menuBtn = document.getElementById('menu-btn');
+            var links = document.getElementById('nav-links');
+
+            function closeMenu() {
+                links.classList.remove('open');
+                menuBtn.setAttribute('aria-expanded', 'false');
+                menuBtn.querySelector('i').className = 'fas fa-bars';
+            }
+
+            menuBtn.addEventListener('click', function () {
+                var open = links.classList.toggle('open');
+                menuBtn.setAttribute('aria-expanded', String(open));
+                menuBtn.querySelector('i').className = open ? 'fas fa-xmark' : 'fas fa-bars';
+            });
+
+            links.addEventListener('click', function (e) {
+                if (e.target.tagName === 'A') closeMenu();
+            });
+
+            /* ---- Header shadow ---- */
+            var header = document.getElementById('site-header');
+            function onScroll() {
+                header.classList.toggle('scrolled', window.scrollY > 24);
+            }
+            onScroll();
+            window.addEventListener('scroll', onScroll, { passive: true });
+
+            /* ---- Scroll reveal ---- */
+            var items = document.querySelectorAll('.reveal');
+            if (!('IntersectionObserver' in window) ||
+                window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                items.forEach(function (el) { el.classList.add('in'); });
+            } else {
+                var io = new IntersectionObserver(function (entries) {
+                    entries.forEach(function (entry) {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('in');
+                            io.unobserve(entry.target);
+                        }
+                    });
+                }, { rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
+                items.forEach(function (el) { io.observe(el); });
+            }
+
+            /* ---- Active nav link ---- */
+            var navMap = {};
+            document.querySelectorAll('.nav-links a[href^="#"]').forEach(function (a) {
+                var el = document.getElementById(a.getAttribute('href').slice(1));
+                if (el) navMap[el.id] = a;
+            });
+            var spy = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        Object.keys(navMap).forEach(function (id) { navMap[id].classList.remove('active'); });
+                        if (navMap[entry.target.id]) navMap[entry.target.id].classList.add('active');
+                    }
+                });
+            }, { rootMargin: '-45% 0px -50% 0px' });
+            Object.keys(navMap).forEach(function (id) { spy.observe(document.getElementById(id)); });
+        })();
     </script>
 </body>
 
